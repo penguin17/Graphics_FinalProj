@@ -14,7 +14,8 @@ class MyViewer : public WsViewer
 	enum MenuEv { EvNormals, EvAnimate, EvExit };
 	UiCheckButton* _nbut;
 	float rot;
-	
+	GsVec leftLowerArmRot, leftHandRot, leftUpperArmRot, rightLowerArmRot, rightHandRot, rightUpperArmRot;
+	int count;
 	bool _animating;
 	GsVec direction;
 	GsVec position;
@@ -32,6 +33,7 @@ class MyViewer : public WsViewer
 	void build_ui ();
 	void movement(int);
 	void handle_motion(int);
+	void animate();
 	void add_model ( SnShape* s, GsVec p );
 	void build_scene ();
 	void show_normals ( bool b );
