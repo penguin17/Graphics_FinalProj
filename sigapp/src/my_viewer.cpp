@@ -21,7 +21,7 @@ MyViewer::MyViewer ( int x, int y, int w, int h, const char* l ) : WsViewer(x,y,
 	_animating=false;
 	eyePos.x = 3.11;
 	eyePos.y = 94.79;
-	eyePos.z = 82.46;
+	eyePos.z = -82.46;
 
 	centerPos.x = -1.91;
 	centerPos.y = 49.13;
@@ -105,7 +105,7 @@ void MyViewer::build_dohnut()
 	g.fi = 0; // The group starts at first face,
 	g.fn = m.F.size(); // convers all faces,
 	g.dmap = new GsModel::Texture; // and will be textured,
-	g.dmap->fname.set("../the-sun.png"); // with this image.
+	g.dmap->fname.set("C:/Users/Muqqaddas/Desktop/Graphics_FinalProj-master/sigapp/the-sun.png"); // with this image.
 										 // 3. Make sure the number of materials matches the number of groups:
 	m.M.push().init(); // Only the diffuse component will come from the texture,
 					   //m.M.top() = ...; // so add here any other material properties you’d like.
@@ -179,6 +179,8 @@ void MyViewer::add_model ( SnShape* s, GsVec p )
 
 void MyViewer::build_scene ()
 {
+	
+
 	GsMat mat;
 	mat.e11 = lightSource.y;
 	mat.e12 = -lightSource.x;
@@ -188,6 +190,7 @@ void MyViewer::build_scene ()
 	mat.e44 = lightSource.y;
 	mat.e13 = mat.e14 = mat.e31 = mat.e34 = mat.e21 = mat.e22 = mat.e23 = mat.e24 = mat.e41 = mat.e43 = 0;
 
+	
 
 	janemba_shadow->mainManip->mat() = mat;
 
@@ -196,6 +199,104 @@ void MyViewer::build_scene ()
 	camera().eye = eyePos;
 	camera().center = centerPos;
 	render();
+
+
+	SnModel *building1 = new SnModel;
+	building1->model()->load("../building1.obj");
+	building1->model()->rotate(GsQuat(-0.55f, 0.0f, 0.0f, 0.0f));
+	add_model(building1, GsVec(200.0,0.0, -80.0));
+	
+	SnModel *building2 = new SnModel;
+	building2->model()->load("../building2.obj");
+	building2->model()->rotate(GsQuat(-0.55f, 0.0f, 0.0f,0.0f));
+	add_model(building2, GsVec(500.0, 0.0, 100.0));
+
+	SnModel *building3 = new SnModel;
+	building3->model()->load("../building3.obj");
+	building3->model()->rotate(GsQuat(-0.55f, 0.0f, 0.0f, 0.0f));
+	add_model(building3, GsVec(-500.0, 0.0, -100.0));
+
+	SnModel *building4 = new SnModel;
+	building4->model()->load("../building4.obj");
+	building4->model()->rotate(GsQuat(-0.55f, 0.0f, 0.0f, 0.0f));
+	add_model(building4, GsVec(-200.0, 0.0, 500.0));
+	
+	SnModel *building5 = new SnModel;
+	building5->model()->load("../building5.obj");
+	building5->model()->rotate(GsQuat(-0.55f, 0.0f, 0.0f, 0.0f));
+	add_model(building5, GsVec(-300.0, 0.0, 250.0));
+
+	SnModel *building6 = new SnModel;
+	building6->model()->load("../building6.obj");
+	building6->model()->rotate(GsQuat(-0.55f, 0.0f, 0.0f, 0.0f));
+	add_model(building6, GsVec(300.0, 0.0, -250.0));
+
+	SnModel *building7 = new SnModel;
+	building7->model()->load("../building7.obj");
+	building7->model()->rotate(GsQuat(-0.55f, 0.0f, 0.0f, 0.0f));
+	add_model(building7, GsVec(-450.0, 0.0, 550.0));
+
+	SnModel *building8 = new SnModel;
+	building8->model()->load("../building8.obj");
+	building8->model()->rotate(GsQuat(-0.55f, 0.0f, 0.0f, 0.0f));
+	add_model(building8, GsVec(450.0, 0.0, -550.0));
+
+	SnModel *building9 = new SnModel;
+	building9->model()->load("../building9.obj");
+	building9->model()->rotate(GsQuat(-0.55f, 0.0f, 0.0f, 0.0f));
+	add_model(building9, GsVec(-150.0, 0.0, 500.0));
+
+	SnModel *building10 = new SnModel;
+	building10->model()->load("../building10.obj");
+	building10->model()->rotate(GsQuat(-0.55f, 0.0f, 0.0f, 0.0f));
+	add_model(building10, GsVec(150.0, 0.0, 560.0));
+
+	SnModel *building11 = new SnModel;
+	building11->model()->load("../building11.obj");
+	building11->model()->rotate(GsQuat(-0.55f, 0.0f, 0.0f, 0.0f));
+	add_model(building11, GsVec(-200.0, 0.0, 100.0));
+
+	SnModel *building12 = new SnModel;
+	building12->model()->load("../building12.obj");
+	building12->model()->rotate(GsQuat(-0.55f, 0.0f, 0.0f, 0.0f));
+	add_model(building12, GsVec(-70.0, 0.0, -100.0));
+
+	SnModel *building13 = new SnModel;
+	building13->model()->load("../building13.obj");
+	building13->model()->rotate(GsQuat(-0.55f, 0.0f, 0.0f, 0.0f));
+	add_model(building13, GsVec(70.0, 0.0, 50.0));
+
+	SnModel *building14 = new SnModel;
+	building14->model()->load("../building14.obj");
+	building14->model()->rotate(GsQuat(-0.55f, 0.0f, 0.0f, 0.0f));
+	add_model(building14, GsVec(400.0, 0.0, 400.0));
+
+	SnModel *building15 = new SnModel;
+	building15->model()->load("../building15.obj");
+	building15->model()->rotate(GsQuat(-0.55f, 0.0f, 0.0f, 0.0f));
+	add_model(building15, GsVec(-400.0, 0.0, 400.0));
+
+	SnModel *building16 = new SnModel;
+	building16->model()->load("../building16.obj");
+	building16->model()->rotate(GsQuat(-0.55f, 0.0f, 0.0f, 0.0f));
+	add_model(building16, GsVec(0.0, 0.0, 200.0));
+
+	SnModel *building17 = new SnModel;
+	building17->model()->load("../building17.obj");
+	building17->model()->rotate(GsQuat(-0.55f, 0.0f, 0.0f, 0.0f));
+	add_model(building17, GsVec(0.0, 0.0, -500.0));
+
+	SnModel *building18 = new SnModel;
+	building18->model()->load("../building18.obj");
+	building18->model()->rotate(GsQuat(-0.55f, 0.0f, 0.0f, 0.0f));
+	add_model(building18, GsVec(-20.0, 0.0, -175.0));
+
+	SnModel *building19 = new SnModel;
+	building19->model()->load("../building19.obj");
+	building19->model()->rotate(GsQuat(-0.55f, 0.0f, 0.0f, 0.0f));
+	add_model(building19, GsVec(-200.0, 0.0, 0.0));
+
+
 
 	//build_dohnut();
 	build_floor();
@@ -271,6 +372,7 @@ void MyViewer::handle_motion(int choice)
 }
 void MyViewer::build_floor()
 {
+	
 	SnModel *floor = new SnModel;
 	floor->model()->V.push() = GsVec(1000.0, 0.0, 1000.0);
 	floor->model()->N.push() = GsVec(0.0, 40.0, 0.0);
@@ -576,8 +678,8 @@ int MyViewer::timer(int e)
 	rightUpperArmInc.z = (0.0f*converter) / 60.0f;
 
 	if (count == 60)
-		remove_timer(0);
-	if (e == 0)
+		remove_timer(1);
+	if (e == 1)
 	{
 			x = 16.0f; y = 43.0f; z = 0.0f;  // leftHand
 			m3.translation(x, y, z);
@@ -743,7 +845,7 @@ int MyViewer::timer(int e)
 }
 void MyViewer::animate()
 {
-	add_timer(0.05, 0);
+	add_timer(0.01, 1);
 
 }
 int MyViewer::handle_keyboard ( const GsEvent &e )
