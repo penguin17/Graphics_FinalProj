@@ -1,0 +1,25 @@
+Main Goals of Live Environment
+- Have human models walking around in simple patterns
+- Have car models drive in the streets in simple patterns
+- Add more to the environment to make it feel lively as possible; example, adding trees, making the floor represent a road 
+- Enclose the environment in a big cube so the user doesn't see empty white space when looking far away
+- Adjust the building sizes so it makes the city buildings look a lot bigger than the character models
+- Position buildings to match the floor which would represent the roads
+
+Side Goals (If finish early)
+-  Add anything else that you think can liven the environment more. Example like adding birds that fly around in specific
+path
+
+Notes of things that I'm planning to implement that'll help you with your part that I'd be using with animations
+
+- I'm planning on cleaning up my code to make it easier to animate and I believe it'd be beneficial for you to use it too
+since you might want to do some exerpiments on how somethings would like when animated a certain way. The plan is to make 
+a class called character model that allows you to dynamically add parts to the model. So for example, if you want to 
+animate an arm on a simple character model, it'll allow you to call a function to add the arm to the model with a specific
+key to reference to that arm later if you'd like to rotate it.
+
+- Until it's implemented, I was thinking that you can make a simple character models of your own, or simply download them 
+from the internet and have them moving in the path and then we can work together on the animations
+
+Notes of things that I'm not so sure of how to implement and need further thinking
+- How the road should be made? (Maybe something through paint since just going to be 2D)

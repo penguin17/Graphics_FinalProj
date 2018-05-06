@@ -1,0 +1,22 @@
+Main Goals of Collision Detection
+- Establish bounding box for everything in the environment that we want reaction from; ex: buildings, characters, other objects
+- Utilize bounding box to tell whenever two objects are colliding
+- Whenever objects are colliding it should trigger some event to occur
+- Events should include for now, stopping the character from moving inside an object, causing object to disappear after certain
+amount of collisions
+
+Side Goals if Time 
+- Make exploding animation of when objects are destroyed if just being destroyed
+
+My Thoughts on Implementation
+- Have a list structure that contains all the collidable objects within the environment and associate them all with a bounding box,
+and amount of hits it takes for them to disappear. This is so you can make a function that goes through this list to check if objects
+collided with anything in the environment
+
+- Another question of interest is when to go about checking for collisions. You can make it timer based or user action based. I 
+recommend checking for collisions everytime anything in the environment is moving (user action based) so that you don't go about checking
+for collisions when nothing has moved so you don't make collision detecting algorithm check around when nothing has even moved.
+That is why I wouldn't want you going for checking timer based wise, but I believe it'll be a bit easier to implement because
+you don't have to look for places in code when a collision would occur; the timer would just be constantly be checking. The frequent
+amount of checks won't be too troublesome since we'd have such a relatively small envirnoment and that's why I'm not completely against
+you trying to implement it this way. 
