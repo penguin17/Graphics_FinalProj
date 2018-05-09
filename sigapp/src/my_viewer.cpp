@@ -12,9 +12,26 @@
 # include <sig/gs_mat.h>
 
 #include <list>
+
+# include <set>
+# include <queue>
+using namespace std;
+
+
+class Tracking {
+public:
+	Tracking() { model = 0; inc = GsVec(0, 0, 0); destination = GsVec(0, 0, 0); }
+	SnManipulator* model;
+	GsVec inc;
+	GsVec destination;
+};
+queue<Tracking> trackList;
+set<SnManipulator*> sceneObjects;
+int bodyChoice;
 MyViewer::MyViewer ( int x, int y, int w, int h, const char* l ) : WsViewer(x,y,w,h,l)
 {
 	count = 0;
+	bodyChoice = 0;
 	leftLowerArmRot.x = 0; leftLowerArmRot.y = 0; leftLowerArmRot.z = 0;
 	leftHandRot.x = 0; leftHandRot.y = 0; leftHandRot.z = 0;
 	leftUpperArmRot.x = 0; leftUpperArmRot.y = 0; leftUpperArmRot.z = 0;
@@ -46,7 +63,7 @@ MyViewer::MyViewer ( int x, int y, int w, int h, const char* l ) : WsViewer(x,y,
 	rootg()->add(derp);*/
 	render();
 }
-
+bool collision(GsBox& box1, SnManipulator* check);
 /*void MyViewer::build_dohnut()
 {
 	SnModel* sn = new SnModel; // create your SnModel
@@ -384,6 +401,7 @@ void MyViewer::build_scene ()
 
 	//build_dohnut();
 	build_floor();
+	add_timer(0.1, 1);
 }
 
 void MyViewer::handle_motion(int choice)
@@ -404,34 +422,46 @@ void MyViewer::handle_motion(int choice)
 	//m.translation(GsVec(4.8,-35.0,0.0)); // rightUpperLeg
 	float x, y, z;
 
-	if (choice == 0 || choice == 1) { x = 16.0f; y = 43.0f; z = 0.0f; } // leftHand
-	else if (choice == 2 || choice == 3) { x = 16.0f; y = 51.0f; z = 0.0f; } // leftLowerArm
-	else if (choice == 4 || choice == 5) { x = 16.0f; y = 59.0f; z = 0.0f; } // leftUpperArm
-	else if (choice == 6 || choice == 7) { x = -16.0f; y = 40.0f; z = 0.0f; } // rightHand
-	else if (choice == 8 || choice == 9) { x = -16.0f; y = 51.0f; z = 0.0f; } // rightLowerArm
-	else if (choice == 10 || choice == 11) { x = -15.0f; y = 59.0f; z = 0.0f; } // rightUpperArm
+	if (bodyChoice == 1) { x = 16.0f; y = 43.0f; z = 0.0f; } // leftHand
+	else if (bodyChoice == 2) { x = 16.0f; y = 51.0f; z = 0.0f; } // leftLowerArm
+	else if (bodyChoice == 3) { x = 16.0f; y = 59.0f; z = 0.0f; } // leftUpperArm
+	else if (bodyChoice == 4) { x = -16.0f; y = 40.0f; z = 0.0f; } // rightHand
+	else if (bodyChoice == 5) { x = -16.0f; y = 51.0f; z = 0.0f; } // rightLowerArm
+	else if (bodyChoice == 6) { x = -15.0f; y = 59.0f; z = 0.0f; } // rightUpperArm
 	else { gsout << "Choice is unidentifiable\n"; return; }
 
 
 
-	if ((choice % 2) == 0)
+	if ((choice) == 0)
 		m2.rotx(-0.2f);
-	else
+	else if (choice == 1)
 		m2.rotx(0.2f);
+	else if (choice == 2)
+	{
+		m2.roty(-0.2f);
+	}
+	else if (choice == 3)
+		m2.roty(0.2f);
+	else if (choice == 4)
+		m2.rotz(-0.2f);
+	else if (choice == 5)
+		m2.rotz(0.2f);
 
-	if (choice == 2) m2.rotz(-0.2f);
-	else if (choice == 3) m2.rotz(0.2f);
+	
+
+	/*if (choice == 2) m2.rotz(-0.2f);
+	else if (choice == 3) m2.rotz(0.2f);*/
 	m3.translation(-x, -y, -z);
 	m1.translation(x, y, z);
 
 	m1 = m1 * m2*m3;
 	
-	if (choice == 0 || choice == 1) { janemba->leftHandManip->mat() = m1*janemba->leftHandManip->mat();}
-	else if (choice == 2 || choice == 3) { janemba->leftLowerArmManip->mat() = m1*janemba->leftLowerArmManip->mat(); }
-	else if (choice == 4 || choice == 5) { janemba->leftUpperArmManip->mat() = m1*janemba->leftUpperArmManip->mat(); }
-	else if (choice == 6 || choice == 7) { janemba->rightHandManip->mat() = m1*janemba->rightHandManip->mat(); }
-	else if (choice == 8 || choice == 9) { janemba->rightLowerArmManip->mat() = m1*janemba->rightLowerArmManip->mat(); }
-	else if (choice == 10 || choice == 11) { janemba->rightUpperArmManip->mat() = m1*janemba->rightUpperArmManip->mat(); }
+	if (bodyChoice == 1) { janemba->leftHandManip->mat() = m1*janemba->leftHandManip->mat();}
+	else if (bodyChoice == 2) { janemba->leftLowerArmManip->mat() = m1*janemba->leftLowerArmManip->mat(); }
+	else if (bodyChoice == 3) { janemba->leftUpperArmManip->mat() = m1*janemba->leftUpperArmManip->mat(); }
+	else if (bodyChoice == 4) { janemba->rightHandManip->mat() = m1*janemba->rightHandManip->mat(); }
+	else if (bodyChoice == 5) { janemba->rightLowerArmManip->mat() = m1*janemba->rightLowerArmManip->mat(); }
+	else if (bodyChoice == 6) { janemba->rightUpperArmManip->mat() = m1*janemba->rightUpperArmManip->mat(); }
 
 	/*janemba_shadow->mainManip->mat() = janemba->mainManip->mat();
 
@@ -442,17 +472,42 @@ void MyViewer::handle_motion(int choice)
 	else if (choice == 8 || choice == 9) { janemba_shadow->rightLowerArmManip->mat() = m1 * janemba_shadow->rightLowerArmManip->mat(); }
 	else if (choice == 10 || choice == 11) { janemba_shadow->rightUpperArmManip->mat() = m1 * janemba_shadow->rightUpperArmManip->mat(); }
 	*/
-	GsMat mat;
-	mat.e11 = lightSource.y;
-	mat.e12 = -lightSource.x;
-	mat.e32 = -lightSource.z;
-	mat.e33 = lightSource.y;
-	mat.e42 = -1.0;
-	mat.e44 = lightSource.y;
-	mat.e13 = mat.e14 = mat.e31 = mat.e34 = mat.e21 = mat.e22 = mat.e23 = mat.e24 = mat.e41 = mat.e43 = 0;
+	//GsMat mat;
+	//mat.e11 = lightSource.y;
+	//mat.e12 = -lightSource.x;
+	//mat.e32 = -lightSource.z;
+	//mat.e33 = lightSource.y;
+	//mat.e42 = -1.0;
+	//mat.e44 = lightSource.y;
+	//mat.e13 = mat.e14 = mat.e31 = mat.e34 = mat.e21 = mat.e22 = mat.e23 = mat.e24 = mat.e41 = mat.e43 = 0;
 	
 	//janemba_shadow->mainManip->mat() = mat * janemba->mainManip->mat();
 	render();
+}
+
+bool MyViewer::collision(GsBox& box1, SnManipulator* check)
+{
+	GsVec temp = box1.a;
+	box1.a = box1.b;
+	box1.b = temp;
+	box1.a = check->mat()*box1.a;
+	box1.b = check->mat()*box1.b;
+	for (set<SnManipulator*>::iterator it2 = sceneObjects.begin(); it2 != sceneObjects.end() && (!trackList.empty() && check != *it2); it2++)
+	{
+		GsBox box2;
+		((SnModel*)((*it2)->child()))->get_bounding_box(box2);
+
+		if (box1.intersects(box2))
+		{
+			((SnModel*)((trackList.front()).model->child()))->model()->init();
+			((SnModel*)(*it2)->child())->model()->init();
+			//sceneObjects.erase(it2);
+			gsout << "Collision occurred\n";
+			return true;
+		}
+	}
+
+	return false;
 }
 void MyViewer::build_floor()
 {
@@ -770,165 +825,204 @@ int MyViewer::timer(int e)
 		remove_timer(1);
 	if (e == 1)
 	{
-			x = 16.0f; y = 43.0f; z = 0.0f;  // leftHand
-			m3.translation(x, y, z);
-			m2.rotx(leftHandInc.x);
-			m4.rotz(-leftHandRot.z);
-			m6.rotz(leftHandRot.z);
-			m1.translation(-x, -y, -z);
-			m1 = m3 * m6*m2*m4*m1;
-			janemba->leftHandManip->mat() = m1 * janemba->leftHandManip->mat();
-			leftHandRot.x += leftHandInc.x;
 
-			m2.rotz(leftHandInc.z);
-			m1.translation(-x, -y, -z);
-			m1 = m3 *m2*m1;
-			janemba->leftHandManip->mat() = m1 * janemba->leftHandManip->mat();
-			leftHandRot.z += leftHandInc.z;
+		if (e == 1)
+		{
+			queue<Tracking> tempList;
 
-			m2.roty(leftHandInc.y);
-			m4.rotz(-leftHandRot.z);
-			m5.rotz(leftHandRot.z);
-			m6.rotx(-leftHandRot.x);
-			m7.rotx(leftHandRot.x);
-			m1.translation(-x, -y, -z);
-			m1 = m3 * m5*m7*m2*m6*m4*m1;
-			janemba->leftHandManip->mat() = m1 * janemba->leftHandManip->mat();
-			leftHandRot.y += leftHandInc.y;
+			while (!trackList.empty())
+			{
+				Tracking check = trackList.front();
+				GsMat mat;
+				//gsout << "trans inc = " << (trackList.front()).inc << "\n";
+				mat.translation((trackList.front()).inc);
+				(trackList.front()).model->mat() = mat * (trackList.front()).model->mat();
+				GsBox box1;
+
+				((SnModel*)((trackList.front()).model->child()))->get_bounding_box(box1);
+
+
+				if (!collision(box1, trackList.front().model))
+				{
+					//gsout << "pushing into temp list\n";
+					tempList.push(trackList.front());
+				}
+				trackList.pop();
+
+			}
+
+			if (!tempList.empty())
+			{
+				while (!tempList.empty())
+				{
+					trackList.push(tempList.front());
+					tempList.pop();
+				}
+			}
+
+			render();
+		}
+
+		// COMMENTED OUT STUFF BELOW JUST IN CASE WE NEEDED IT
+		//	x = 16.0f; y = 43.0f; z = 0.0f;  // leftHand
+		//	m3.translation(x, y, z);
+		//	m2.rotx(leftHandInc.x);
+		//	m4.rotz(-leftHandRot.z);
+		//	m6.rotz(leftHandRot.z);
+		//	m1.translation(-x, -y, -z);
+		//	m1 = m3 * m6*m2*m4*m1;
+		//	janemba->leftHandManip->mat() = m1 * janemba->leftHandManip->mat();
+		//	leftHandRot.x += leftHandInc.x;
+
+		//	m2.rotz(leftHandInc.z);
+		//	m1.translation(-x, -y, -z);
+		//	m1 = m3 *m2*m1;
+		//	janemba->leftHandManip->mat() = m1 * janemba->leftHandManip->mat();
+		//	leftHandRot.z += leftHandInc.z;
+
+		//	m2.roty(leftHandInc.y);
+		//	m4.rotz(-leftHandRot.z);
+		//	m5.rotz(leftHandRot.z);
+		//	m6.rotx(-leftHandRot.x);
+		//	m7.rotx(leftHandRot.x);
+		//	m1.translation(-x, -y, -z);
+		//	m1 = m3 * m5*m7*m2*m6*m4*m1;
+		//	janemba->leftHandManip->mat() = m1 * janemba->leftHandManip->mat();
+		//	leftHandRot.y += leftHandInc.y;
 	
 
-			x = 16.0f; y = 51.0f; z = 0.0f;  // leftLowerArm
-			m3.translation(x, y, z);
-			//m2.rotx(leftLowerArmInc.x);
-			//m4.rotz(-leftLowerArmRot.z);
-			//m6.rotz(leftLowerArmRot.z);
-			//m1.translation(-x, -y, -z);
-			//m1 = m3 * m6*m2*m4*m1;
-			//janemba->leftLowerArmManip->mat() = m1 * janemba->leftLowerArmManip->mat();
-			//leftLowerArmRot.x += leftLowerArmInc.x;
+		//	x = 16.0f; y = 51.0f; z = 0.0f;  // leftLowerArm
+		//	m3.translation(x, y, z);
+		//	m2.rotx(leftLowerArmInc.x);
+		//	m4.rotz(-leftLowerArmRot.z);
+		//	m6.rotz(leftLowerArmRot.z);
+		//	m1.translation(-x, -y, -z);
+		//	m1 = m3 * m6*m2*m4*m1;
+		//	janemba->leftLowerArmManip->mat() = m1 * janemba->leftLowerArmManip->mat();
+		//	leftLowerArmRot.x += leftLowerArmInc.x;
 
-			m2.rotz(leftLowerArmInc.z);
-			m1.translation(-x, -y, -z);
-			m1 = m3 *m2*m1;
-			janemba->leftLowerArmManip->mat() = m1 * janemba->leftLowerArmManip->mat();
-			leftLowerArmRot.z += leftLowerArmInc.z;
+		//	m2.rotz(leftLowerArmInc.z);
+		//	m1.translation(-x, -y, -z);
+		//	m1 = m3 *m2*m1;
+		//	janemba->leftLowerArmManip->mat() = m1 * janemba->leftLowerArmManip->mat();
+		//	leftLowerArmRot.z += leftLowerArmInc.z;
 
-			m2.roty(leftLowerArmInc.y);
-			m1.translation(-x, -y, -z);
-			m4.rotz(-leftLowerArmRot.z);
-			m5.rotz(leftLowerArmRot.z);
-			m6.rotx(-leftLowerArmRot.x);
-			m7.rotx(leftLowerArmRot.x);
-			m1 = m3 * m5*m7*m2*m6*m4*m1;
-			janemba->leftLowerArmManip->mat() = m1 * janemba->leftLowerArmManip->mat();
-			leftLowerArmRot.y += leftLowerArmInc.y;
+		//	m2.roty(leftLowerArmInc.y);
+		//	m1.translation(-x, -y, -z);
+		//	m4.rotz(-leftLowerArmRot.z);
+		//	m5.rotz(leftLowerArmRot.z);
+		//	m6.rotx(-leftLowerArmRot.x);
+		//	m7.rotx(leftLowerArmRot.x);
+		//	m1 = m3 * m5*m7*m2*m6*m4*m1;
+		//	janemba->leftLowerArmManip->mat() = m1 * janemba->leftLowerArmManip->mat();
+		//	leftLowerArmRot.y += leftLowerArmInc.y;
 
-			x = 16.0f; y = 59.0f; z = 0.0f;  // leftUpperArm
-			m3.translation(x, y, z);
-			m2.rotx(leftUpperArmInc.x);
-			m4.rotz(-leftUpperArmRot.z);
-			m6.rotz(leftUpperArmRot.z);
-			m1.translation(-x, -y, -z);
-			m1 = m3 * m6*m2*m4*m1;
-			janemba->leftUpperArmManip->mat() = m1 * janemba->leftUpperArmManip->mat();
-			leftUpperArmRot.x += leftUpperArmInc.x;
+		//	x = 16.0f; y = 59.0f; z = 0.0f;  // leftUpperArm
+		//	m3.translation(x, y, z);
+		//	m2.rotx(leftUpperArmInc.x);
+		//	m4.rotz(-leftUpperArmRot.z);
+		//	m6.rotz(leftUpperArmRot.z);
+		//	m1.translation(-x, -y, -z);
+		//	m1 = m3 * m6*m2*m4*m1;
+		//	janemba->leftUpperArmManip->mat() = m1 * janemba->leftUpperArmManip->mat();
+		//	leftUpperArmRot.x += leftUpperArmInc.x;
 
-			m2.rotz(leftUpperArmInc.z);
-			m1.translation(-x, -y, -z);
-			m1 = m3 *m2*m1;
-			janemba->leftUpperArmManip->mat() = m1 * janemba->leftUpperArmManip->mat();
-			leftUpperArmRot.z += leftUpperArmInc.z;
+		//	m2.rotz(leftUpperArmInc.z);
+		//	m1.translation(-x, -y, -z);
+		//	m1 = m3 *m2*m1;
+		//	janemba->leftUpperArmManip->mat() = m1 * janemba->leftUpperArmManip->mat();
+		//	leftUpperArmRot.z += leftUpperArmInc.z;
 
-			m2.roty(leftUpperArmInc.y);
-			m1.translation(-x, -y, -z);
-			m4.rotz(-leftUpperArmRot.z);
-			m5.rotz(leftUpperArmRot.z);
-			m6.rotx(-leftUpperArmRot.x);
-			m7.rotx(leftUpperArmRot.x);
-			m1 = m3 * m5*m7*m2*m6*m4*m1;
-			janemba->leftUpperArmManip->mat() = m1 * janemba->leftUpperArmManip->mat();
-			leftUpperArmRot.y += leftUpperArmInc.y;
+		//	m2.roty(leftUpperArmInc.y);
+		//	m1.translation(-x, -y, -z);
+		//	m4.rotz(-leftUpperArmRot.z);
+		//	m5.rotz(leftUpperArmRot.z);
+		//	m6.rotx(-leftUpperArmRot.x);
+		//	m7.rotx(leftUpperArmRot.x);
+		//	m1 = m3 * m5*m7*m2*m6*m4*m1;
+		//	janemba->leftUpperArmManip->mat() = m1 * janemba->leftUpperArmManip->mat();
+		//	leftUpperArmRot.y += leftUpperArmInc.y;
 
-			x = -16.0f; y = 40.0f; z = 0.0f;  // rightHand
-			m3.translation(x, y, z);
-			m2.rotx(rightHandInc.x);
-			m4.rotz(-rightHandRot.z);
-			m6.rotz(rightHandRot.z);
-			m1.translation(-x, -y, -z);
-			m1 = m3 * m6*m2*m4*m1;
-			janemba->rightHandManip->mat() = m1 * janemba->rightHandManip->mat();
-			rightHandRot.x += rightHandInc.x;
+		//	x = -16.0f; y = 40.0f; z = 0.0f;  // rightHand
+		//	m3.translation(x, y, z);
+		//	m2.rotx(rightHandInc.x);
+		//	m4.rotz(-rightHandRot.z);
+		//	m6.rotz(rightHandRot.z);
+		//	m1.translation(-x, -y, -z);
+		//	m1 = m3 * m6*m2*m4*m1;
+		//	janemba->rightHandManip->mat() = m1 * janemba->rightHandManip->mat();
+		//	rightHandRot.x += rightHandInc.x;
 
-			m2.rotz(rightHandInc.z);
-			m1.translation(-x, -y, -z);
-			m1 = m3 * m2*m1;
-			janemba->rightHandManip->mat() = m1 * janemba->rightHandManip->mat();
-			rightHandRot.z += rightHandInc.z;
+		//	m2.rotz(rightHandInc.z);
+		//	m1.translation(-x, -y, -z);
+		//	m1 = m3 * m2*m1;
+		//	janemba->rightHandManip->mat() = m1 * janemba->rightHandManip->mat();
+		//	rightHandRot.z += rightHandInc.z;
 
-			m2.roty(rightHandInc.y);
-			m4.rotz(-rightHandRot.z);
-			m5.rotz(rightHandRot.z);
-			m6.rotx(-rightHandRot.x);
-			m7.rotx(rightHandRot.x);
-			m1.translation(-x, -y, -z);
-			m1 = m3 * m5*m7*m2*m6*m4*m1;
-			janemba->rightHandManip->mat() = m1 * janemba->rightHandManip->mat();
-			rightHandRot.y += rightHandInc.y;
+		//	m2.roty(rightHandInc.y);
+		//	m4.rotz(-rightHandRot.z);
+		//	m5.rotz(rightHandRot.z);
+		//	m6.rotx(-rightHandRot.x);
+		//	m7.rotx(rightHandRot.x);
+		//	m1.translation(-x, -y, -z);
+		//	m1 = m3 * m5*m7*m2*m6*m4*m1;
+		//	janemba->rightHandManip->mat() = m1 * janemba->rightHandManip->mat();
+		//	rightHandRot.y += rightHandInc.y;
 
-			x = -16.0f; y = 51.0f; z = 0.0f;  // rightLowerArm
-			m3.translation(x, y, z);
-			/*m2.rotx(rightLowerArmInc.x);
-			m4.rotz(-rightLowerArmRot.z);
-			m6.rotz(rightLowerArmRot.z);
-			m1.translation(-x, -y, -z);
-			m1 = m3 * m6*m2*m4*m1;
-			janemba->rightLowerArmManip->mat() = m1 * janemba->rightLowerArmManip->mat();
-			rightLowerArmRot.x += rightLowerArmInc.x;*/
+		//	x = -16.0f; y = 51.0f; z = 0.0f;  // rightLowerArm
+		//	m3.translation(x, y, z);
+		//	/*m2.rotx(rightLowerArmInc.x);
+		//	m4.rotz(-rightLowerArmRot.z);
+		//	m6.rotz(rightLowerArmRot.z);
+		//	m1.translation(-x, -y, -z);
+		//	m1 = m3 * m6*m2*m4*m1;
+		//	janemba->rightLowerArmManip->mat() = m1 * janemba->rightLowerArmManip->mat();
+		//	rightLowerArmRot.x += rightLowerArmInc.x;*/
 
-			m2.rotz(rightLowerArmInc.z);
-			m1.translation(-x, -y, -z);
-			m1 = m3 * m2 * m1;
-			janemba->rightLowerArmManip->mat() = m1 * janemba->rightLowerArmManip->mat();
-			rightLowerArmRot.z += rightLowerArmInc.z;
+		//	m2.rotz(rightLowerArmInc.z);
+		//	m1.translation(-x, -y, -z);
+		//	m1 = m3 * m2 * m1;
+		//	janemba->rightLowerArmManip->mat() = m1 * janemba->rightLowerArmManip->mat();
+		//	rightLowerArmRot.z += rightLowerArmInc.z;
 
-			m2.roty(rightLowerArmInc.y);
-			m1.translation(-x, -y, -z);
-			m4.rotz(-rightLowerArmRot.z);
-			m5.rotz(rightLowerArmRot.z);
-			m6.rotx(-rightLowerArmRot.x);
-			m7.rotx(rightLowerArmRot.x);
-			m1 = m3 * m5*m7*m2*m6*m4*m1;
-			janemba->rightLowerArmManip->mat() = m1 * janemba->rightLowerArmManip->mat();
-			rightLowerArmRot.y += rightLowerArmInc.y;
+		//	m2.roty(rightLowerArmInc.y);
+		//	m1.translation(-x, -y, -z);
+		//	m4.rotz(-rightLowerArmRot.z);
+		//	m5.rotz(rightLowerArmRot.z);
+		//	m6.rotx(-rightLowerArmRot.x);
+		//	m7.rotx(rightLowerArmRot.x);
+		//	m1 = m3 * m5*m7*m2*m6*m4*m1;
+		//	janemba->rightLowerArmManip->mat() = m1 * janemba->rightLowerArmManip->mat();
+		//	rightLowerArmRot.y += rightLowerArmInc.y;
 
-			x = -15.0f; y = 59.0f; z = 0.0f;  // rightUpperArm
-			m3.translation(x, y, z);
-			m2.rotx(rightUpperArmInc.x);
-			m4.rotz(-rightUpperArmRot.z);
-			m6.rotz(rightUpperArmRot.z);
-			m1.translation(-x, -y, -z);
-			m1 = m3 * m6*m2*m4*m1;
-			janemba->rightUpperArmManip->mat() = m1 * janemba->rightUpperArmManip->mat();
-			rightUpperArmRot.x += rightUpperArmInc.x;
+		//	x = -15.0f; y = 59.0f; z = 0.0f;  // rightUpperArm
+		//	m3.translation(x, y, z);
+		//	m2.rotx(rightUpperArmInc.x);
+		//	m4.rotz(-rightUpperArmRot.z);
+		//	m6.rotz(rightUpperArmRot.z);
+		//	m1.translation(-x, -y, -z);
+		//	m1 = m3 * m6*m2*m4*m1;
+		//	janemba->rightUpperArmManip->mat() = m1 * janemba->rightUpperArmManip->mat();
+		//	rightUpperArmRot.x += rightUpperArmInc.x;
 
-			m2.rotz(rightUpperArmInc.z);
-			m1.translation(-x, -y, -z);
-			m1 = m3 * m2*m1;
-			janemba->rightUpperArmManip->mat() = m1 * janemba->rightUpperArmManip->mat();
-			rightUpperArmRot.z += rightUpperArmInc.z;
+		//	m2.rotz(rightUpperArmInc.z);
+		//	m1.translation(-x, -y, -z);
+		//	m1 = m3 * m2*m1;
+		//	janemba->rightUpperArmManip->mat() = m1 * janemba->rightUpperArmManip->mat();
+		//	rightUpperArmRot.z += rightUpperArmInc.z;
 
-			m2.roty(rightUpperArmInc.y);
-			m1.translation(-x, -y, -z);
-			m4.rotz(-rightUpperArmRot.z);
-			m5.rotz(rightUpperArmRot.z);
-			m6.rotx(-rightUpperArmRot.x);
-			m7.rotx(rightUpperArmRot.x);
-			m1 = m3 * m5*m7*m2*m6*m4*m1;
-			janemba->rightUpperArmManip->mat() = m1 * janemba->rightUpperArmManip->mat();
-			rightUpperArmRot.y += rightUpperArmInc.y;
+		//	m2.roty(rightUpperArmInc.y);
+		//	m1.translation(-x, -y, -z);
+		//	m4.rotz(-rightUpperArmRot.z);
+		//	m5.rotz(rightUpperArmRot.z);
+		//	m6.rotx(-rightUpperArmRot.x);
+		//	m7.rotx(rightUpperArmRot.x);
+		//	m1 = m3 * m5*m7*m2*m6*m4*m1;
+		//	janemba->rightUpperArmManip->mat() = m1 * janemba->rightUpperArmManip->mat();
+		//	rightUpperArmRot.y += rightUpperArmInc.y;
 
-		count++;
-		render();
+		//count++;
+		//render();
 	}
 	return 1;
 }
@@ -976,6 +1070,12 @@ int MyViewer::handle_keyboard ( const GsEvent &e )
 		case 'g': handle_motion(9); return 1;
 		case 'y': handle_motion(10); return 1;
 		case 'h': handle_motion(11); return 1;
+		case '1': bodyChoice = 1; return 1;
+		case '2': bodyChoice = 2; return 1;
+		case '3': bodyChoice = 3; return 1;
+		case '4': bodyChoice = 4; return 1;
+		case '5': bodyChoice = 5; return 1;
+		case '6': bodyChoice = 6; return 1;
 		case 'u': animate(); return 1;
 		case GsEvent::KeyUp: movement(2); return 1;
 		case GsEvent::KeyDown: movement(3);  return 1;

@@ -36,6 +36,7 @@ class MyViewer : public WsViewer
 	//void build_dohnut();
 	void build_floor();
 	void build_ui ();
+	bool collision(GsBox & box1, SnManipulator* check);
 	void movement(int);
 	void handle_motion(int);
 	void animate();
