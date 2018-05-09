@@ -10,6 +10,8 @@
 # include <sigogl/ws_run.h>
 # include <sig/gs_vec.h>
 # include <sig/gs_mat.h>
+
+#include <list>
 MyViewer::MyViewer ( int x, int y, int w, int h, const char* l ) : WsViewer(x,y,w,h,l)
 {
 	count = 0;
@@ -33,11 +35,11 @@ MyViewer::MyViewer ( int x, int y, int w, int h, const char* l ) : WsViewer(x,y,
 	cameraMode = true;
 	build_ui ();
 	janemba = new characterModel;
-	janemba_shadow = new characterModel;
+	//janemba_shadow = new characterModel;
 	janemba->mode = 1;
-	janemba_shadow->mode = 0;
+	//janemba_shadow->mode = 0;
 	janemba->loadModel();
-	janemba_shadow->loadModel();
+	//janemba_shadow->loadModel();
 	build_scene ();
 	/*SnModel *derp = new SnModel;
 	derp->model()->load("../building19.obj");
@@ -45,7 +47,7 @@ MyViewer::MyViewer ( int x, int y, int w, int h, const char* l ) : WsViewer(x,y,
 	render();
 }
 
-void MyViewer::build_dohnut()
+/*void MyViewer::build_dohnut()
 {
 	SnModel* sn = new SnModel; // create your SnModel
 	GsModel& m = *sn->model(); // access the GsModel
@@ -105,7 +107,7 @@ void MyViewer::build_dohnut()
 	g.fi = 0; // The group starts at first face,
 	g.fn = m.F.size(); // convers all faces,
 	g.dmap = new GsModel::Texture; // and will be textured,
-	g.dmap->fname.set("C:/Users/Muqqaddas/Desktop/Graphics_FinalProj-master/sigapp/the-sun.png"); // with this image.
+	g.dmap->fname.set("../the-sun.png"); // with this image.
 										 // 3. Make sure the number of materials matches the number of groups:
 	m.M.push().init(); // Only the diffuse component will come from the texture,
 					   //m.M.top() = ...; // so add here any other material properties you’d like.
@@ -146,7 +148,7 @@ void MyViewer::build_dohnut()
 	sn->model()->translate(lightSource);
 	rootg()->add(sn); // add to the scene
 	render();
-}
+}*/
 void MyViewer::build_ui ()
 {
 	UiPanel *p, *sp;
@@ -192,10 +194,10 @@ void MyViewer::build_scene ()
 
 	
 
-	janemba_shadow->mainManip->mat() = mat;
+	//janemba_shadow->mainManip->mat() = mat;
 
 	rootg()->add(janemba->mainManip);
-	rootg()->add(janemba_shadow->mainManip);
+	//rootg()->add(janemba_shadow->mainManip);
 	camera().eye = eyePos;
 	camera().center = centerPos;
 	render();
@@ -203,100 +205,182 @@ void MyViewer::build_scene ()
 
 	SnModel *building1 = new SnModel;
 	building1->model()->load("../building1.obj");
-	building1->model()->rotate(GsQuat(-0.55f, 0.0f, 0.0f, 0.0f));
-	add_model(building1, GsVec(200.0,0.0, -80.0));
+	building1->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f, 0.0f));
+	add_model(building1, GsVec(200.0,0.0, -680.0));
 	
 	SnModel *building2 = new SnModel;
 	building2->model()->load("../building2.obj");
-	building2->model()->rotate(GsQuat(-0.55f, 0.0f, 0.0f,0.0f));
+	building2->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f,0.0f));
 	add_model(building2, GsVec(500.0, 0.0, 100.0));
 
 	SnModel *building3 = new SnModel;
 	building3->model()->load("../building3.obj");
-	building3->model()->rotate(GsQuat(-0.55f, 0.0f, 0.0f, 0.0f));
+	building3->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f, 0.0f));
 	add_model(building3, GsVec(-500.0, 0.0, -100.0));
 
 	SnModel *building4 = new SnModel;
 	building4->model()->load("../building4.obj");
-	building4->model()->rotate(GsQuat(-0.55f, 0.0f, 0.0f, 0.0f));
+	building4->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f, 0.0f));
 	add_model(building4, GsVec(-200.0, 0.0, 500.0));
 	
 	SnModel *building5 = new SnModel;
 	building5->model()->load("../building5.obj");
-	building5->model()->rotate(GsQuat(-0.55f, 0.0f, 0.0f, 0.0f));
-	add_model(building5, GsVec(-300.0, 0.0, 250.0));
+	building5->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f, 0.0f));
+	add_model(building5, GsVec(-100.0, 0.0, 100.0));
 
 	SnModel *building6 = new SnModel;
 	building6->model()->load("../building6.obj");
-	building6->model()->rotate(GsQuat(-0.55f, 0.0f, 0.0f, 0.0f));
-	add_model(building6, GsVec(300.0, 0.0, -250.0));
+	building6->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f, 0.0f));
+	add_model(building6, GsVec(300.0, 0.0, -50.0));
 
 	SnModel *building7 = new SnModel;
 	building7->model()->load("../building7.obj");
-	building7->model()->rotate(GsQuat(-0.55f, 0.0f, 0.0f, 0.0f));
-	add_model(building7, GsVec(-450.0, 0.0, 550.0));
+	building7->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f, 0.0f));
+	add_model(building7, GsVec(-650.0, 0.0, 550.0));
 
 	SnModel *building8 = new SnModel;
 	building8->model()->load("../building8.obj");
-	building8->model()->rotate(GsQuat(-0.55f, 0.0f, 0.0f, 0.0f));
+	building8->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f, 0.0f));
 	add_model(building8, GsVec(450.0, 0.0, -550.0));
 
 	SnModel *building9 = new SnModel;
 	building9->model()->load("../building9.obj");
-	building9->model()->rotate(GsQuat(-0.55f, 0.0f, 0.0f, 0.0f));
-	add_model(building9, GsVec(-150.0, 0.0, 500.0));
+	building9->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f, 0.0f));
+	add_model(building9, GsVec(-150.0, 0.0, 700.0));
 
 	SnModel *building10 = new SnModel;
 	building10->model()->load("../building10.obj");
-	building10->model()->rotate(GsQuat(-0.55f, 0.0f, 0.0f, 0.0f));
+	building10->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f, 0.0f));
 	add_model(building10, GsVec(150.0, 0.0, 560.0));
 
 	SnModel *building11 = new SnModel;
 	building11->model()->load("../building11.obj");
-	building11->model()->rotate(GsQuat(-0.55f, 0.0f, 0.0f, 0.0f));
-	add_model(building11, GsVec(-200.0, 0.0, 100.0));
+	building11->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f, 0.0f));
+	add_model(building11, GsVec(-680.0, 0.0, 100.0));
 
 	SnModel *building12 = new SnModel;
 	building12->model()->load("../building12.obj");
-	building12->model()->rotate(GsQuat(-0.55f, 0.0f, 0.0f, 0.0f));
-	add_model(building12, GsVec(-70.0, 0.0, -100.0));
+	building12->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f, 0.0f));
+	add_model(building12, GsVec(-150.0, 0.0, -680.0));
 
 	SnModel *building13 = new SnModel;
 	building13->model()->load("../building13.obj");
-	building13->model()->rotate(GsQuat(-0.55f, 0.0f, 0.0f, 0.0f));
+	building13->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f, 0.0f));
 	add_model(building13, GsVec(70.0, 0.0, 50.0));
 
 	SnModel *building14 = new SnModel;
 	building14->model()->load("../building14.obj");
-	building14->model()->rotate(GsQuat(-0.55f, 0.0f, 0.0f, 0.0f));
+	building14->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f, 0.0f));
 	add_model(building14, GsVec(400.0, 0.0, 400.0));
 
 	SnModel *building15 = new SnModel;
 	building15->model()->load("../building15.obj");
-	building15->model()->rotate(GsQuat(-0.55f, 0.0f, 0.0f, 0.0f));
+	building15->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f, 0.0f));
 	add_model(building15, GsVec(-400.0, 0.0, 400.0));
 
 	SnModel *building16 = new SnModel;
 	building16->model()->load("../building16.obj");
-	building16->model()->rotate(GsQuat(-0.55f, 0.0f, 0.0f, 0.0f));
-	add_model(building16, GsVec(0.0, 0.0, 200.0));
+	building16->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f, 0.0f));
+	add_model(building16, GsVec(200.0, 0.0, -400.0));
 
 	SnModel *building17 = new SnModel;
 	building17->model()->load("../building17.obj");
-	building17->model()->rotate(GsQuat(-0.55f, 0.0f, 0.0f, 0.0f));
+	building17->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f, 0.0f));
 	add_model(building17, GsVec(0.0, 0.0, -500.0));
 
 	SnModel *building18 = new SnModel;
 	building18->model()->load("../building18.obj");
-	building18->model()->rotate(GsQuat(-0.55f, 0.0f, 0.0f, 0.0f));
+	building18->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f, 0.0f));
 	add_model(building18, GsVec(-20.0, 0.0, -175.0));
 
 	SnModel *building19 = new SnModel;
 	building19->model()->load("../building19.obj");
-	building19->model()->rotate(GsQuat(-0.55f, 0.0f, 0.0f, 0.0f));
-	add_model(building19, GsVec(-200.0, 0.0, 0.0));
+	building19->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f, 0.0f));
+	add_model(building19, GsVec(-600.0, 0.0, -650.0));
+
+	SnModel *building20 = new SnModel;
+	building20->model()->load("../building19.obj");
+	building20->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f, 0.0f));
+	add_model(building20, GsVec(-400.0, 0.0, -500.0));
+
+	SnModel *tree1 = new SnModel;
+	//tree1->model()->load("../../Tree/Tree.obj");
+	tree1->model()->load("C:/Users/Muqqaddas/Desktop/Graphics_FinalProj-master (2)/Graphics_FinalProj-master/Tree/Tree.obj");
+	tree1->model()->rotate(GsQuat(6.0f, 0.0f, 0.0f, 0.0f));
+	add_model(tree1, GsVec(170.0f, 0.0f, 10.0f));
+
+	SnModel *tree2 = new SnModel;
+	//tree2->model()->load("../Tree.obj");
+	tree2->model()->load("C:/Users/Muqqaddas/Desktop/Graphics_FinalProj-master (2)/Graphics_FinalProj-master/Tree/Tree.obj");
+	tree2->model()->rotate(GsQuat(6.0f, 0.0f, 0.0f, 0.0f));
+	add_model(tree2, GsVec(570.0f, 0.0f, -90.0f));
+
+	SnModel *tree3 = new SnModel;
+	//tree3->model()->load("../Tree.obj");
+	tree3->model()->load("C:/Users/Muqqaddas/Desktop/Graphics_FinalProj-master (2)/Graphics_FinalProj-master/Tree/Tree.obj");
+	tree3->model()->rotate(GsQuat(6.0f, 0.0f, 0.0f, 0.0f));
+	add_model(tree3, GsVec(-730.0f, 0.0f, -50.0f));
+
+	SnModel *tree4 = new SnModel;
+	//tree4->model()->load("../Tree.obj");
+	tree4->model()->load("C:/Users/Muqqaddas/Desktop/Graphics_FinalProj-master (2)/Graphics_FinalProj-master/Tree/Tree.obj");
+	tree4->model()->rotate(GsQuat(6.0f, 0.0f, 0.0f, 0.0f));
+	add_model(tree4, GsVec(-730.0f, 0.0f, -730.0f));
+
+	SnModel *tree5 = new SnModel;
+	//tree5->model()->load("../Tree.obj");
+	tree5->model()->load("C:/Users/Muqqaddas/Desktop/Graphics_FinalProj-master (2)/Graphics_FinalProj-master/Tree/Tree.obj");
+	tree5->model()->rotate(GsQuat(6.0f, 0.0f, 0.0f, 0.0f));
+	add_model(tree5, GsVec(-530.0f, 0.0f, 730.0f));
+
+	SnModel *tree6 = new SnModel;
+	//tree6->model()->load("../Tree.obj");
+	tree6->model()->load("C:/Users/Muqqaddas/Desktop/Graphics_FinalProj-master (2)/Graphics_FinalProj-master/Tree/Tree.obj");
+	tree6->model()->rotate(GsQuat(6.0f, 0.0f, 0.0f, 0.0f));
+	add_model(tree6, GsVec(550.0f, 0.0f, 700.0f));
+
+	SnModel *bush1 = new SnModel;
+	bush1->model()->load("C:/Users/Muqqaddas/Desktop/Graphics_FinalProj-master (2)/Graphics_FinalProj-master/Bush/Bush1.obj");
+	bush1->model()->rotate(GsQuat(4.5f, 0.0f, 0.0f, 0.0f));
+	add_model(bush1, GsVec(-80.0f, 0.0f, 25.0f));
+
+	SnModel *bush2 = new SnModel;
+	bush2->model()->load("C:/Users/Muqqaddas/Desktop/Graphics_FinalProj-master (2)/Graphics_FinalProj-master/Bush/Bush1.obj");
+	bush2->model()->rotate(GsQuat(4.5f, 0.0f, 0.0f, 0.0f));
+	add_model(bush2, GsVec(-380.0f, 0.0f, 125.0f));
+
+	SnModel *bush3 = new SnModel;
+	bush3->model()->load("C:/Users/Muqqaddas/Desktop/Graphics_FinalProj-master (2)/Graphics_FinalProj-master/Bush/Bush1.obj");
+	bush3->model()->rotate(GsQuat(4.5f, 0.0f, 0.0f, 0.0f));
+	add_model(bush3, GsVec(80.0f, 0.0f, -25.0f));
+
+	SnModel *bush4 = new SnModel;
+	bush4->model()->load("C:/Users/Muqqaddas/Desktop/Graphics_FinalProj-master (2)/Graphics_FinalProj-master/Bush/Bush1.obj");
+	bush4->model()->rotate(GsQuat(4.5f, 0.0f, 0.0f, 0.0f));
+	add_model(bush4, GsVec(480.0f, 0.0f, 25.0f));
+
+	SnModel *bush5 = new SnModel;
+	bush5->model()->load("C:/Users/Muqqaddas/Desktop/Graphics_FinalProj-master (2)/Graphics_FinalProj-master/Bush/Bush1.obj");
+	bush5->model()->rotate(GsQuat(4.5f, 0.0f, 0.0f, 0.0f));
+	add_model(bush5, GsVec(0.0f, 0.0f, -400.0f));
+
+	SnModel* car = new SnModel;
+	car->model()->load("C:/Users/Muqqaddas/Desktop/Graphics_FinalProj-master (2)/Graphics_FinalProj-master/car/coupe.obj");
+	//car->get_bounding_box();
+	car->model()->rotate(GsQuat(3.5f, 0.0f, 0.0f, 0.0f));
+	add_model(car, GsVec(260.0f, 0.0f, 370.0f));
 
 
+	
+	//Points for car path: (260, 0 ,370) to (260, 0, 700) to (10, 0, 700) to (10, 0, 370)
+
+	SnModel* goku = new SnModel;
+	goku->model()->load("C:/Users/Muqqaddas/Desktop/Graphics_FinalProj-master (2)/Graphics_FinalProj-master/84s2p5aq76yo-NarutoGokuOutfit/nrt.obj");
+	//goku->model()->load("../nrt.obj");
+	goku->model()->rotate(GsQuat(-0.4, 0.35, 0.0, 0.0));
+	add_model(goku, GsVec(-90, 30, 300));
+
+	//Points for Goku path: (-90,30,300) to (-590,30,300) to (-590,30,250) to (-90,30,250)
 
 	//build_dohnut();
 	build_floor();
@@ -349,7 +433,7 @@ void MyViewer::handle_motion(int choice)
 	else if (choice == 8 || choice == 9) { janemba->rightLowerArmManip->mat() = m1*janemba->rightLowerArmManip->mat(); }
 	else if (choice == 10 || choice == 11) { janemba->rightUpperArmManip->mat() = m1*janemba->rightUpperArmManip->mat(); }
 
-	janemba_shadow->mainManip->mat() = janemba->mainManip->mat();
+	/*janemba_shadow->mainManip->mat() = janemba->mainManip->mat();
 
 	if (choice == 0 || choice == 1) { janemba_shadow->leftHandManip->mat() = m1 * janemba_shadow->leftHandManip->mat(); }
 	else if (choice == 2 || choice == 3) { janemba_shadow->leftLowerArmManip->mat() = m1 * janemba_shadow->leftLowerArmManip->mat(); }
@@ -357,7 +441,7 @@ void MyViewer::handle_motion(int choice)
 	else if (choice == 6 || choice == 7) { janemba_shadow->rightHandManip->mat() = m1 * janemba_shadow->rightHandManip->mat(); }
 	else if (choice == 8 || choice == 9) { janemba_shadow->rightLowerArmManip->mat() = m1 * janemba_shadow->rightLowerArmManip->mat(); }
 	else if (choice == 10 || choice == 11) { janemba_shadow->rightUpperArmManip->mat() = m1 * janemba_shadow->rightUpperArmManip->mat(); }
-
+	*/
 	GsMat mat;
 	mat.e11 = lightSource.y;
 	mat.e12 = -lightSource.x;
@@ -367,7 +451,7 @@ void MyViewer::handle_motion(int choice)
 	mat.e44 = lightSource.y;
 	mat.e13 = mat.e14 = mat.e31 = mat.e34 = mat.e21 = mat.e22 = mat.e23 = mat.e24 = mat.e41 = mat.e43 = 0;
 	
-	janemba_shadow->mainManip->mat() = mat * janemba->mainManip->mat();
+	//janemba_shadow->mainManip->mat() = mat * janemba->mainManip->mat();
 	render();
 }
 void MyViewer::build_floor()
@@ -394,7 +478,7 @@ void MyViewer::build_floor()
 	g.fi = 0; // The group starts at first face,
 	g.fn = floor->model()->F.size(); // convers all faces,
 	g.dmap = new GsModel::Texture; // and will be textured,
-	g.dmap->fname.set("../the-sun.png"); // with this image.
+	g.dmap->fname.set("../gravel.png"); // with this image.
 										 // 3. Make sure the number of materials matches the number of groups:
 	floor->model()->M.push().init(); // Only the diffuse component will come from the texture,
 									 //m.M.top() = ...; // so add here any other material properties you’d like.
@@ -463,8 +547,8 @@ void MyViewer::movement(int choice)
 		rot = trans2 * rot*trans1;
 		janemba->direction = rot * janemba->direction;
 
-		janemba_shadow->mainManip->mat() = mat*janemba->mainManip->mat();
-		janemba_shadow->direction = rot * janemba_shadow->direction;
+		//janemba_shadow->mainManip->mat() = mat*janemba->mainManip->mat();
+		//janemba_shadow->direction = rot * janemba_shadow->direction;
 		eyePos = rot * eyePos;
 		centerPos = rot * centerPos;
 	}
@@ -479,8 +563,8 @@ void MyViewer::movement(int choice)
 		rot = trans2 * rot*trans1;
 		janemba->direction = rot * janemba->direction;
 
-		janemba_shadow->mainManip->mat() = mat*janemba->mainManip->mat();
-		janemba_shadow->direction = rot * janemba_shadow->direction;
+		//janemba_shadow->mainManip->mat() = mat*janemba->mainManip->mat();
+		//janemba_shadow->direction = rot * janemba_shadow->direction;
 
 		eyePos = rot * eyePos;
 		centerPos = rot * centerPos;
@@ -508,7 +592,7 @@ void MyViewer::movement(int choice)
 			m3.translation(GsVec(-4.8, 35.0, 0.0));
 			m1 = m3 * m2*m1;
 			janemba->rightUpperLegManip->mat() = m1 * janemba->rightUpperLegManip->mat();
-			janemba_shadow->rightUpperLegManip->mat() = m1 * janemba_shadow->rightUpperLegManip->mat();
+		//	janemba_shadow->rightUpperLegManip->mat() = m1 * janemba_shadow->rightUpperLegManip->mat();
 
 			m1.translation(GsVec(-4.8, -35.0, 0.0));
 			if (first)
@@ -518,8 +602,9 @@ void MyViewer::movement(int choice)
 			m3.translation(GsVec(4.8, 35.0, 0.0));
 			m1 = m3 * m2*m1;
 			janemba->leftUpperLegManip->mat() = m1 * janemba->leftUpperLegManip->mat();
+			//janemba->leftLowerLegManip->mat() = janemba->leftLowerLegManip->mat();
 			legRotFront = 1;
-			janemba_shadow->leftUpperLegManip->mat() = m1 * janemba_shadow->leftUpperLegManip->mat();
+			//janemba_shadow->leftUpperLegManip->mat() = m1 * janemba_shadow->leftUpperLegManip->mat();
 		
 		}
 		else
@@ -534,7 +619,7 @@ void MyViewer::movement(int choice)
 			m3.translation(GsVec(-4.8, 35.0, 0.0));
 			m1 = m3 * m2*m1;
 			janemba->rightUpperLegManip->mat() = m1 * janemba->rightUpperLegManip->mat();
-			janemba_shadow->rightUpperLegManip->mat() = m1 * janemba_shadow->rightUpperLegManip->mat();
+			//janemba_shadow->rightUpperLegManip->mat() = m1 * janemba_shadow->rightUpperLegManip->mat();
 
 			m1.translation(GsVec(-4.8, -35.0, 0.0));
 			if (first)
@@ -545,12 +630,12 @@ void MyViewer::movement(int choice)
 			m1 = m3 * m2*m1;
 			janemba->leftUpperLegManip->mat() = m1 * janemba->leftUpperLegManip->mat();
 			legRotFront = 0;
-			janemba_shadow->leftUpperLegManip->mat() = m1 * janemba_shadow->leftUpperLegManip->mat();
+			//janemba_shadow->leftUpperLegManip->mat() = m1 * janemba_shadow->leftUpperLegManip->mat();
 		}
 
-		janemba_shadow->mainManip->mat() = mat * janemba->mainManip->mat();
-		janemba_shadow->direction = janemba_shadow->direction + placement;
-		janemba_shadow->position += placement;
+		//janemba_shadow->mainManip->mat() = mat * janemba->mainManip->mat();
+		//janemba_shadow->direction = janemba_shadow->direction + placement;
+		//janemba_shadow->position += placement;
 		first = false;
 		add_timer(0.5, 0);
 		eyePos += placement;
@@ -577,7 +662,7 @@ void MyViewer::movement(int choice)
 			m3.translation(GsVec(-4.8, 35.0, 0.0));
 			m1 = m3 * m2*m1;
 			janemba->rightUpperLegManip->mat() = m1 * janemba->rightUpperLegManip->mat();
-			janemba_shadow->rightUpperLegManip->mat() = m1 * janemba_shadow->rightUpperLegManip->mat();
+			//janemba_shadow->rightUpperLegManip->mat() = m1 * janemba_shadow->rightUpperLegManip->mat();
 
 			m1.translation(GsVec(-4.8, -35.0, 0.0));
 			if (first)
@@ -588,7 +673,7 @@ void MyViewer::movement(int choice)
 			m1 = m3 * m2*m1;
 			janemba->leftUpperLegManip->mat() = m1 * janemba->leftUpperLegManip->mat();
 			legRotFront = 1;
-			janemba_shadow->leftUpperLegManip->mat() = m1 * janemba_shadow->leftUpperLegManip->mat();
+			//janemba_shadow->leftUpperLegManip->mat() = m1 * janemba_shadow->leftUpperLegManip->mat();
 			first = false;
 		}
 		else
@@ -603,7 +688,7 @@ void MyViewer::movement(int choice)
 			m3.translation(GsVec(-4.8, 35.0, 0.0));
 			m1 = m3 * m2*m1;
 			janemba->rightUpperLegManip->mat() = m1 * janemba->rightUpperLegManip->mat();
-			janemba_shadow->rightUpperLegManip->mat() = m1 * janemba_shadow->rightUpperLegManip->mat();
+			//janemba_shadow->rightUpperLegManip->mat() = m1 * janemba_shadow->rightUpperLegManip->mat();
 
 			m1.translation(GsVec(-4.8, -35.0, 0.0));
 			if (first)
@@ -614,11 +699,14 @@ void MyViewer::movement(int choice)
 			m1 = m3 * m2*m1;
 			janemba->leftUpperLegManip->mat() = m1 * janemba->leftUpperLegManip->mat();
 			legRotFront = 0;
-			janemba_shadow->leftUpperLegManip->mat() = m1 * janemba_shadow->leftUpperLegManip->mat();
+			//
+			
+			
+			//janemba_shadow->leftUpperLegManip->mat() = m1 * janemba_shadow->leftUpperLegManip->mat();
 		}
-		janemba_shadow->mainManip->mat() = mat * janemba->mainManip->mat();
+		/*janemba_shadow->mainManip->mat() = mat * janemba->mainManip->mat();
 		janemba_shadow->direction = janemba_shadow->direction - placement;
-		janemba_shadow->position -= placement;
+		janemba_shadow->position -= placement;*/
 		add_timer(0.5, 0);
 		first = false;
 		eyePos -= placement;
@@ -651,6 +739,7 @@ int MyViewer::timer(int e)
 	leftHandInc.y = ((-88.69f)*converter) / 60.0f; 
 	leftHandInc.z = ((35.653f)*converter) / 60.0f;
 
+	
 	/*leftLowerArmInc.x = ((-62.021f)*converter) / 60.0f; 
 	leftLowerArmInc.y = ((-43.932f)*converter) / 60.0f; 
 	leftLowerArmInc.z = ((45.816f)*converter) / 60.0f;*/
@@ -798,7 +887,7 @@ int MyViewer::timer(int e)
 
 			m2.rotz(rightLowerArmInc.z);
 			m1.translation(-x, -y, -z);
-			m1 = m3 * m2*m1;
+			m1 = m3 * m2 * m1;
 			janemba->rightLowerArmManip->mat() = m1 * janemba->rightLowerArmManip->mat();
 			rightLowerArmRot.z += rightLowerArmInc.z;
 
@@ -843,6 +932,25 @@ int MyViewer::timer(int e)
 	}
 	return 1;
 }
+/*void MyViewer::timer_environment(int e)
+{
+	if (e = 0) 
+	{
+		std::list<tracking> temp;
+		while (!temp.empty)
+		{
+			temp.pop_front;
+			GsVec newPosition = incrmnt;
+			if (newPosition != destination) 
+			{
+				temp.push_front;
+			}
+
+
+		}
+	}
+
+}*/
 void MyViewer::animate()
 {
 	add_timer(0.01, 1);

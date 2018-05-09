@@ -7,6 +7,7 @@
 # include <sigogl/ws_viewer.h>
 # include <sig/sn_manipulator.h>
 # include "characterModel.h"
+# include "tracking.h"
 
 // Viewer for this example:
 class MyViewer : public WsViewer
@@ -25,10 +26,14 @@ class MyViewer : public WsViewer
 	bool first;
 	int legRotFront = 0.0;
 	characterModel *janemba;
-	characterModel *janemba_shadow;
+	//characterModel *janemba_shadow;
+	GsVec incrmnt;
+	GsVec start_position;
+	GsVec destination;
+	
    public :
 	MyViewer ( int x, int y, int w, int h, const char* l );
-	void build_dohnut();
+	//void build_dohnut();
 	void build_floor();
 	void build_ui ();
 	void movement(int);
@@ -40,5 +45,9 @@ class MyViewer : public WsViewer
 	virtual int handle_keyboard ( const GsEvent &e ) override;
 	virtual int uievent ( int e ) override;
 	virtual int timer(int e) override;
+	void timer_environment(int e);
+	SnManipulator *mainManip;
 };
+
+
 
