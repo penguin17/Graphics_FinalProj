@@ -30,6 +30,7 @@ class MyViewer : public WsViewer
 	GsVec incrmnt;
 	GsVec start_position;
 	GsVec destination;
+	GsVec shootPoint;
 	
    public :
 	MyViewer ( int x, int y, int w, int h, const char* l );

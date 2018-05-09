@@ -61,9 +61,10 @@ MyViewer::MyViewer ( int x, int y, int w, int h, const char* l ) : WsViewer(x,y,
 	/*SnModel *derp = new SnModel;
 	derp->model()->load("../building19.obj");
 	rootg()->add(derp);*/
+	
 	render();
 }
-bool collision(GsBox& box1, SnManipulator* check);
+//bool collision(GsBox& box1, SnManipulator* check);
 /*void MyViewer::build_dohnut()
 {
 	SnModel* sn = new SnModel; // create your SnModel
@@ -219,189 +220,202 @@ void MyViewer::build_scene ()
 	camera().center = centerPos;
 	render();
 
-
+	
+	mat.translation(200.0, 0.0, -680.0);
 	SnModel *building1 = new SnModel;
 	building1->model()->load("../building1.obj");
-	building1->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f, 0.0f));
-	add_model(building1, GsVec(200.0,0.0, -680.0));
+	SnManipulator* manip = new SnManipulator;
+	manip->child(building1);
+	manip->mat() = mat*manip->mat();
+	sceneObjects.insert(manip);
+	rootg()->add(manip);
+	//building1->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f, 0.0f));
+	//add_model(building1, GsVec(200.0,0.0, -680.0));
 	
+	mat.translation(500.0, 0.0, 100.0);
 	SnModel *building2 = new SnModel;
+	manip = new SnManipulator;
 	building2->model()->load("../building2.obj");
-	building2->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f,0.0f));
-	add_model(building2, GsVec(500.0, 0.0, 100.0));
+	manip->child(building2);
+	manip->mat() = mat * manip->mat();
+	sceneObjects.insert(manip);
+	rootg()->add(manip);
+	/*building2->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f,0.0f));
+	add_model(building2, GsVec(500.0, 0.0, 100.0));*/
 
-	SnModel *building3 = new SnModel;
-	building3->model()->load("../building3.obj");
-	building3->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f, 0.0f));
-	add_model(building3, GsVec(-500.0, 0.0, -100.0));
+	//SnModel *building3 = new SnModel;
+	//building3->model()->load("../building3.obj");
+	//building3->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f, 0.0f));
+	//add_model(building3, GsVec(-500.0, 0.0, -100.0));
 
-	SnModel *building4 = new SnModel;
-	building4->model()->load("../building4.obj");
-	building4->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f, 0.0f));
-	add_model(building4, GsVec(-200.0, 0.0, 500.0));
-	
-	SnModel *building5 = new SnModel;
-	building5->model()->load("../building5.obj");
-	building5->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f, 0.0f));
-	add_model(building5, GsVec(-100.0, 0.0, 100.0));
+	//SnModel *building4 = new SnModel;
+	//building4->model()->load("../building4.obj");
+	//building4->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f, 0.0f));
+	//add_model(building4, GsVec(-200.0, 0.0, 500.0));
+	//
+	//SnModel *building5 = new SnModel;
+	//building5->model()->load("../building5.obj");
+	//building5->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f, 0.0f));
+	//add_model(building5, GsVec(-100.0, 0.0, 100.0));
 
-	SnModel *building6 = new SnModel;
-	building6->model()->load("../building6.obj");
-	building6->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f, 0.0f));
-	add_model(building6, GsVec(300.0, 0.0, -50.0));
+	//SnModel *building6 = new SnModel;
+	//building6->model()->load("../building6.obj");
+	//building6->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f, 0.0f));
+	//add_model(building6, GsVec(300.0, 0.0, -50.0));
 
-	SnModel *building7 = new SnModel;
-	building7->model()->load("../building7.obj");
-	building7->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f, 0.0f));
-	add_model(building7, GsVec(-650.0, 0.0, 550.0));
+	//SnModel *building7 = new SnModel;
+	//building7->model()->load("../building7.obj");
+	//building7->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f, 0.0f));
+	//add_model(building7, GsVec(-650.0, 0.0, 550.0));
 
-	SnModel *building8 = new SnModel;
-	building8->model()->load("../building8.obj");
-	building8->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f, 0.0f));
-	add_model(building8, GsVec(450.0, 0.0, -550.0));
+	//SnModel *building8 = new SnModel;
+	//building8->model()->load("../building8.obj");
+	//building8->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f, 0.0f));
+	//add_model(building8, GsVec(450.0, 0.0, -550.0));
 
-	SnModel *building9 = new SnModel;
-	building9->model()->load("../building9.obj");
-	building9->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f, 0.0f));
-	add_model(building9, GsVec(-150.0, 0.0, 700.0));
+	//SnModel *building9 = new SnModel;
+	//building9->model()->load("../building9.obj");
+	//building9->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f, 0.0f));
+	//add_model(building9, GsVec(-150.0, 0.0, 700.0));
 
-	SnModel *building10 = new SnModel;
-	building10->model()->load("../building10.obj");
-	building10->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f, 0.0f));
-	add_model(building10, GsVec(150.0, 0.0, 560.0));
+	//SnModel *building10 = new SnModel;
+	//building10->model()->load("../building10.obj");
+	//building10->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f, 0.0f));
+	//add_model(building10, GsVec(150.0, 0.0, 560.0));
 
-	SnModel *building11 = new SnModel;
-	building11->model()->load("../building11.obj");
-	building11->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f, 0.0f));
-	add_model(building11, GsVec(-680.0, 0.0, 100.0));
+	//SnModel *building11 = new SnModel;
+	//building11->model()->load("../building11.obj");
+	//building11->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f, 0.0f));
+	//add_model(building11, GsVec(-680.0, 0.0, 100.0));
 
-	SnModel *building12 = new SnModel;
-	building12->model()->load("../building12.obj");
-	building12->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f, 0.0f));
-	add_model(building12, GsVec(-150.0, 0.0, -680.0));
+	//SnModel *building12 = new SnModel;
+	//building12->model()->load("../building12.obj");
+	//building12->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f, 0.0f));
+	//add_model(building12, GsVec(-150.0, 0.0, -680.0));
 
-	SnModel *building13 = new SnModel;
-	building13->model()->load("../building13.obj");
-	building13->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f, 0.0f));
-	add_model(building13, GsVec(70.0, 0.0, 50.0));
+	//SnModel *building13 = new SnModel;
+	//building13->model()->load("../building13.obj");
+	//building13->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f, 0.0f));
+	//add_model(building13, GsVec(70.0, 0.0, 50.0));
 
-	SnModel *building14 = new SnModel;
-	building14->model()->load("../building14.obj");
-	building14->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f, 0.0f));
-	add_model(building14, GsVec(400.0, 0.0, 400.0));
+	//SnModel *building14 = new SnModel;
+	//building14->model()->load("../building14.obj");
+	//building14->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f, 0.0f));
+	//add_model(building14, GsVec(400.0, 0.0, 400.0));
 
-	SnModel *building15 = new SnModel;
-	building15->model()->load("../building15.obj");
-	building15->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f, 0.0f));
-	add_model(building15, GsVec(-400.0, 0.0, 400.0));
+	//SnModel *building15 = new SnModel;
+	//building15->model()->load("../building15.obj");
+	//building15->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f, 0.0f));
+	//add_model(building15, GsVec(-400.0, 0.0, 400.0));
 
-	SnModel *building16 = new SnModel;
-	building16->model()->load("../building16.obj");
-	building16->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f, 0.0f));
-	add_model(building16, GsVec(200.0, 0.0, -400.0));
+	//SnModel *building16 = new SnModel;
+	//building16->model()->load("../building16.obj");
+	//building16->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f, 0.0f));
+	//add_model(building16, GsVec(200.0, 0.0, -400.0));
 
-	SnModel *building17 = new SnModel;
-	building17->model()->load("../building17.obj");
-	building17->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f, 0.0f));
-	add_model(building17, GsVec(0.0, 0.0, -500.0));
+	//SnModel *building17 = new SnModel;
+	//building17->model()->load("../building17.obj");
+	//building17->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f, 0.0f));
+	//add_model(building17, GsVec(0.0, 0.0, -500.0));
 
-	SnModel *building18 = new SnModel;
-	building18->model()->load("../building18.obj");
-	building18->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f, 0.0f));
-	add_model(building18, GsVec(-20.0, 0.0, -175.0));
+	//SnModel *building18 = new SnModel;
+	//building18->model()->load("../building18.obj");
+	//building18->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f, 0.0f));
+	//add_model(building18, GsVec(-20.0, 0.0, -175.0));
 
-	SnModel *building19 = new SnModel;
-	building19->model()->load("../building19.obj");
-	building19->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f, 0.0f));
-	add_model(building19, GsVec(-600.0, 0.0, -650.0));
+	//SnModel *building19 = new SnModel;
+	//building19->model()->load("../building19.obj");
+	//building19->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f, 0.0f));
+	//add_model(building19, GsVec(-600.0, 0.0, -650.0));
 
-	SnModel *building20 = new SnModel;
-	building20->model()->load("../building19.obj");
-	building20->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f, 0.0f));
-	add_model(building20, GsVec(-400.0, 0.0, -500.0));
+	//SnModel *building20 = new SnModel;
+	//building20->model()->load("../building19.obj");
+	//building20->model()->rotate(GsQuat(-0.8f, 0.0f, 0.0f, 0.0f));
+	//add_model(building20, GsVec(-400.0, 0.0, -500.0));
 
-	SnModel *tree1 = new SnModel;
-	//tree1->model()->load("../../Tree/Tree.obj");
-	tree1->model()->load("C:/Users/Muqqaddas/Desktop/Graphics_FinalProj-master (2)/Graphics_FinalProj-master/Tree/Tree.obj");
-	tree1->model()->rotate(GsQuat(6.0f, 0.0f, 0.0f, 0.0f));
-	add_model(tree1, GsVec(170.0f, 0.0f, 10.0f));
+	//SnModel *tree1 = new SnModel;
+	////tree1->model()->load("../../Tree/Tree.obj");
+	//tree1->model()->load("C:/Users/Muqqaddas/Desktop/Graphics_FinalProj-master (2)/Graphics_FinalProj-master/Tree/Tree.obj");
+	//tree1->model()->rotate(GsQuat(6.0f, 0.0f, 0.0f, 0.0f));
+	//add_model(tree1, GsVec(170.0f, 0.0f, 10.0f));
 
-	SnModel *tree2 = new SnModel;
-	//tree2->model()->load("../Tree.obj");
-	tree2->model()->load("C:/Users/Muqqaddas/Desktop/Graphics_FinalProj-master (2)/Graphics_FinalProj-master/Tree/Tree.obj");
-	tree2->model()->rotate(GsQuat(6.0f, 0.0f, 0.0f, 0.0f));
-	add_model(tree2, GsVec(570.0f, 0.0f, -90.0f));
+	//SnModel *tree2 = new SnModel;
+	////tree2->model()->load("../Tree.obj");
+	//tree2->model()->load("C:/Users/Muqqaddas/Desktop/Graphics_FinalProj-master (2)/Graphics_FinalProj-master/Tree/Tree.obj");
+	//tree2->model()->rotate(GsQuat(6.0f, 0.0f, 0.0f, 0.0f));
+	//add_model(tree2, GsVec(570.0f, 0.0f, -90.0f));
 
-	SnModel *tree3 = new SnModel;
-	//tree3->model()->load("../Tree.obj");
-	tree3->model()->load("C:/Users/Muqqaddas/Desktop/Graphics_FinalProj-master (2)/Graphics_FinalProj-master/Tree/Tree.obj");
-	tree3->model()->rotate(GsQuat(6.0f, 0.0f, 0.0f, 0.0f));
-	add_model(tree3, GsVec(-730.0f, 0.0f, -50.0f));
+	//SnModel *tree3 = new SnModel;
+	////tree3->model()->load("../Tree.obj");
+	//tree3->model()->load("C:/Users/Muqqaddas/Desktop/Graphics_FinalProj-master (2)/Graphics_FinalProj-master/Tree/Tree.obj");
+	//tree3->model()->rotate(GsQuat(6.0f, 0.0f, 0.0f, 0.0f));
+	//add_model(tree3, GsVec(-730.0f, 0.0f, -50.0f));
 
-	SnModel *tree4 = new SnModel;
-	//tree4->model()->load("../Tree.obj");
-	tree4->model()->load("C:/Users/Muqqaddas/Desktop/Graphics_FinalProj-master (2)/Graphics_FinalProj-master/Tree/Tree.obj");
-	tree4->model()->rotate(GsQuat(6.0f, 0.0f, 0.0f, 0.0f));
-	add_model(tree4, GsVec(-730.0f, 0.0f, -730.0f));
+	//SnModel *tree4 = new SnModel;
+	////tree4->model()->load("../Tree.obj");
+	//tree4->model()->load("C:/Users/Muqqaddas/Desktop/Graphics_FinalProj-master (2)/Graphics_FinalProj-master/Tree/Tree.obj");
+	//tree4->model()->rotate(GsQuat(6.0f, 0.0f, 0.0f, 0.0f));
+	//add_model(tree4, GsVec(-730.0f, 0.0f, -730.0f));
 
-	SnModel *tree5 = new SnModel;
-	//tree5->model()->load("../Tree.obj");
-	tree5->model()->load("C:/Users/Muqqaddas/Desktop/Graphics_FinalProj-master (2)/Graphics_FinalProj-master/Tree/Tree.obj");
-	tree5->model()->rotate(GsQuat(6.0f, 0.0f, 0.0f, 0.0f));
-	add_model(tree5, GsVec(-530.0f, 0.0f, 730.0f));
+	//SnModel *tree5 = new SnModel;
+	////tree5->model()->load("../Tree.obj");
+	//tree5->model()->load("C:/Users/Muqqaddas/Desktop/Graphics_FinalProj-master (2)/Graphics_FinalProj-master/Tree/Tree.obj");
+	//tree5->model()->rotate(GsQuat(6.0f, 0.0f, 0.0f, 0.0f));
+	//add_model(tree5, GsVec(-530.0f, 0.0f, 730.0f));
 
-	SnModel *tree6 = new SnModel;
-	//tree6->model()->load("../Tree.obj");
-	tree6->model()->load("C:/Users/Muqqaddas/Desktop/Graphics_FinalProj-master (2)/Graphics_FinalProj-master/Tree/Tree.obj");
-	tree6->model()->rotate(GsQuat(6.0f, 0.0f, 0.0f, 0.0f));
-	add_model(tree6, GsVec(550.0f, 0.0f, 700.0f));
+	//SnModel *tree6 = new SnModel;
+	////tree6->model()->load("../Tree.obj");
+	//tree6->model()->load("C:/Users/Muqqaddas/Desktop/Graphics_FinalProj-master (2)/Graphics_FinalProj-master/Tree/Tree.obj");
+	//tree6->model()->rotate(GsQuat(6.0f, 0.0f, 0.0f, 0.0f));
+	//add_model(tree6, GsVec(550.0f, 0.0f, 700.0f));
 
-	SnModel *bush1 = new SnModel;
-	bush1->model()->load("C:/Users/Muqqaddas/Desktop/Graphics_FinalProj-master (2)/Graphics_FinalProj-master/Bush/Bush1.obj");
-	bush1->model()->rotate(GsQuat(4.5f, 0.0f, 0.0f, 0.0f));
-	add_model(bush1, GsVec(-80.0f, 0.0f, 25.0f));
+	//SnModel *bush1 = new SnModel;
+	//bush1->model()->load("C:/Users/Muqqaddas/Desktop/Graphics_FinalProj-master (2)/Graphics_FinalProj-master/Bush/Bush1.obj");
+	//bush1->model()->rotate(GsQuat(4.5f, 0.0f, 0.0f, 0.0f));
+	//add_model(bush1, GsVec(-80.0f, 0.0f, 25.0f));
 
-	SnModel *bush2 = new SnModel;
-	bush2->model()->load("C:/Users/Muqqaddas/Desktop/Graphics_FinalProj-master (2)/Graphics_FinalProj-master/Bush/Bush1.obj");
-	bush2->model()->rotate(GsQuat(4.5f, 0.0f, 0.0f, 0.0f));
-	add_model(bush2, GsVec(-380.0f, 0.0f, 125.0f));
+	//SnModel *bush2 = new SnModel;
+	//bush2->model()->load("C:/Users/Muqqaddas/Desktop/Graphics_FinalProj-master (2)/Graphics_FinalProj-master/Bush/Bush1.obj");
+	//bush2->model()->rotate(GsQuat(4.5f, 0.0f, 0.0f, 0.0f));
+	//add_model(bush2, GsVec(-380.0f, 0.0f, 125.0f));
 
-	SnModel *bush3 = new SnModel;
-	bush3->model()->load("C:/Users/Muqqaddas/Desktop/Graphics_FinalProj-master (2)/Graphics_FinalProj-master/Bush/Bush1.obj");
-	bush3->model()->rotate(GsQuat(4.5f, 0.0f, 0.0f, 0.0f));
-	add_model(bush3, GsVec(80.0f, 0.0f, -25.0f));
+	//SnModel *bush3 = new SnModel;
+	//bush3->model()->load("C:/Users/Muqqaddas/Desktop/Graphics_FinalProj-master (2)/Graphics_FinalProj-master/Bush/Bush1.obj");
+	//bush3->model()->rotate(GsQuat(4.5f, 0.0f, 0.0f, 0.0f));
+	//add_model(bush3, GsVec(80.0f, 0.0f, -25.0f));
 
-	SnModel *bush4 = new SnModel;
-	bush4->model()->load("C:/Users/Muqqaddas/Desktop/Graphics_FinalProj-master (2)/Graphics_FinalProj-master/Bush/Bush1.obj");
-	bush4->model()->rotate(GsQuat(4.5f, 0.0f, 0.0f, 0.0f));
-	add_model(bush4, GsVec(480.0f, 0.0f, 25.0f));
+	//SnModel *bush4 = new SnModel;
+	//bush4->model()->load("C:/Users/Muqqaddas/Desktop/Graphics_FinalProj-master (2)/Graphics_FinalProj-master/Bush/Bush1.obj");
+	//bush4->model()->rotate(GsQuat(4.5f, 0.0f, 0.0f, 0.0f));
+	//add_model(bush4, GsVec(480.0f, 0.0f, 25.0f));
 
-	SnModel *bush5 = new SnModel;
-	bush5->model()->load("C:/Users/Muqqaddas/Desktop/Graphics_FinalProj-master (2)/Graphics_FinalProj-master/Bush/Bush1.obj");
-	bush5->model()->rotate(GsQuat(4.5f, 0.0f, 0.0f, 0.0f));
-	add_model(bush5, GsVec(0.0f, 0.0f, -400.0f));
+	//SnModel *bush5 = new SnModel;
+	//bush5->model()->load("C:/Users/Muqqaddas/Desktop/Graphics_FinalProj-master (2)/Graphics_FinalProj-master/Bush/Bush1.obj");
+	//bush5->model()->rotate(GsQuat(4.5f, 0.0f, 0.0f, 0.0f));
+	//add_model(bush5, GsVec(0.0f, 0.0f, -400.0f));
 
-	SnModel* car = new SnModel;
-	car->model()->load("C:/Users/Muqqaddas/Desktop/Graphics_FinalProj-master (2)/Graphics_FinalProj-master/car/coupe.obj");
-	//car->get_bounding_box();
-	car->model()->rotate(GsQuat(3.5f, 0.0f, 0.0f, 0.0f));
-	add_model(car, GsVec(260.0f, 0.0f, 370.0f));
+	//SnModel* car = new SnModel;
+	//car->model()->load("C:/Users/Muqqaddas/Desktop/Graphics_FinalProj-master (2)/Graphics_FinalProj-master/car/coupe.obj");
+	////car->get_bounding_box();
+	//car->model()->rotate(GsQuat(3.5f, 0.0f, 0.0f, 0.0f));
+	//add_model(car, GsVec(260.0f, 0.0f, 370.0f));
 
 
-	
-	//Points for car path: (260, 0 ,370) to (260, 0, 700) to (10, 0, 700) to (10, 0, 370)
+	//
+	////Points for car path: (260, 0 ,370) to (260, 0, 700) to (10, 0, 700) to (10, 0, 370)
 
-	SnModel* goku = new SnModel;
-	goku->model()->load("C:/Users/Muqqaddas/Desktop/Graphics_FinalProj-master (2)/Graphics_FinalProj-master/84s2p5aq76yo-NarutoGokuOutfit/nrt.obj");
-	//goku->model()->load("../nrt.obj");
-	goku->model()->rotate(GsQuat(-0.4, 0.35, 0.0, 0.0));
-	add_model(goku, GsVec(-90, 30, 300));
+	//SnModel* goku = new SnModel;
+	//goku->model()->load("C:/Users/Muqqaddas/Desktop/Graphics_FinalProj-master (2)/Graphics_FinalProj-master/84s2p5aq76yo-NarutoGokuOutfit/nrt.obj");
+	////goku->model()->load("../nrt.obj");
+	//goku->model()->rotate(GsQuat(-0.4, 0.35, 0.0, 0.0));
+	//add_model(goku, GsVec(-90, 30, 300));
 
 	//Points for Goku path: (-90,30,300) to (-590,30,300) to (-590,30,250) to (-90,30,250)
 
 	//build_dohnut();
 	build_floor();
-	add_timer(0.1, 1);
+	add_timer(0.01, 1);
+	render();
 }
 
 void MyViewer::handle_motion(int choice)
@@ -496,13 +510,17 @@ bool MyViewer::collision(GsBox& box1, SnManipulator* check)
 	{
 		GsBox box2;
 		((SnModel*)((*it2)->child()))->get_bounding_box(box2);
-
+		temp = box2.a;
+		//box2.a = box2.b;
+		//box2.b = temp;
+		box2.a = (*it2)->mat()*box2.a;
+		box2.b = (*it2)->mat()*box2.b;
 		if (box1.intersects(box2))
 		{
 			((SnModel*)((trackList.front()).model->child()))->model()->init();
 			((SnModel*)(*it2)->child())->model()->init();
 			//sceneObjects.erase(it2);
-			gsout << "Collision occurred\n";
+			//gsout << "Collision occurred\n";
 			return true;
 		}
 	}
@@ -594,7 +612,7 @@ void MyViewer::movement(int choice)
 	if (choice == 0)
 	{
 		GsMat rot, trans1, trans2;
-		rot.roty(0.5f);
+		rot.roty(0.2f);
 		trans1.translation(-janemba->position);
 		trans2.translation(janemba->position);
 
@@ -610,7 +628,7 @@ void MyViewer::movement(int choice)
 	else if (choice == 1)
 	{
 		GsMat rot, trans1, trans2;
-		rot.roty(-0.5f);
+		rot.roty(-0.2f);
 		trans1.translation(-janemba->position);
 		trans2.translation(janemba->position);
 
@@ -798,7 +816,7 @@ int MyViewer::timer(int e)
 	/*leftLowerArmInc.x = ((-62.021f)*converter) / 60.0f; 
 	leftLowerArmInc.y = ((-43.932f)*converter) / 60.0f; 
 	leftLowerArmInc.z = ((45.816f)*converter) / 60.0f;*/
-	leftLowerArmInc.x = ((-62.021)*converter) / 60.0f;
+	leftLowerArmInc.x = ((-40.021)*converter) / 60.0f;
 	leftLowerArmInc.y = ((-43.932f)*converter) / 60.0f;
 	leftLowerArmInc.z = ((-45.816f)*converter) / 60.0f;
 
@@ -821,209 +839,240 @@ int MyViewer::timer(int e)
 	rightUpperArmInc.y = (-21.196f*converter) / 60.0f;
 	rightUpperArmInc.z = (0.0f*converter) / 60.0f;
 
-	if (count == 60)
-		remove_timer(1);
-	if (e == 1)
-	{
-
-		if (e == 1)
-		{
-			queue<Tracking> tempList;
-
-			while (!trackList.empty())
-			{
-				Tracking check = trackList.front();
-				GsMat mat;
-				//gsout << "trans inc = " << (trackList.front()).inc << "\n";
-				mat.translation((trackList.front()).inc);
-				(trackList.front()).model->mat() = mat * (trackList.front()).model->mat();
-				GsBox box1;
-
-				((SnModel*)((trackList.front()).model->child()))->get_bounding_box(box1);
-
-
-				if (!collision(box1, trackList.front().model))
-				{
-					//gsout << "pushing into temp list\n";
-					tempList.push(trackList.front());
-				}
-				trackList.pop();
-
-			}
-
-			if (!tempList.empty())
-			{
-				while (!tempList.empty())
-				{
-					trackList.push(tempList.front());
-					tempList.pop();
-				}
-			}
-
-			render();
-		}
-
-		// COMMENTED OUT STUFF BELOW JUST IN CASE WE NEEDED IT
-		//	x = 16.0f; y = 43.0f; z = 0.0f;  // leftHand
-		//	m3.translation(x, y, z);
-		//	m2.rotx(leftHandInc.x);
-		//	m4.rotz(-leftHandRot.z);
-		//	m6.rotz(leftHandRot.z);
-		//	m1.translation(-x, -y, -z);
-		//	m1 = m3 * m6*m2*m4*m1;
-		//	janemba->leftHandManip->mat() = m1 * janemba->leftHandManip->mat();
-		//	leftHandRot.x += leftHandInc.x;
-
-		//	m2.rotz(leftHandInc.z);
-		//	m1.translation(-x, -y, -z);
-		//	m1 = m3 *m2*m1;
-		//	janemba->leftHandManip->mat() = m1 * janemba->leftHandManip->mat();
-		//	leftHandRot.z += leftHandInc.z;
-
-		//	m2.roty(leftHandInc.y);
-		//	m4.rotz(-leftHandRot.z);
-		//	m5.rotz(leftHandRot.z);
-		//	m6.rotx(-leftHandRot.x);
-		//	m7.rotx(leftHandRot.x);
-		//	m1.translation(-x, -y, -z);
-		//	m1 = m3 * m5*m7*m2*m6*m4*m1;
-		//	janemba->leftHandManip->mat() = m1 * janemba->leftHandManip->mat();
-		//	leftHandRot.y += leftHandInc.y;
 	
 
-		//	x = 16.0f; y = 51.0f; z = 0.0f;  // leftLowerArm
-		//	m3.translation(x, y, z);
-		//	m2.rotx(leftLowerArmInc.x);
-		//	m4.rotz(-leftLowerArmRot.z);
-		//	m6.rotz(leftLowerArmRot.z);
-		//	m1.translation(-x, -y, -z);
-		//	m1 = m3 * m6*m2*m4*m1;
-		//	janemba->leftLowerArmManip->mat() = m1 * janemba->leftLowerArmManip->mat();
-		//	leftLowerArmRot.x += leftLowerArmInc.x;
+	if (e == 1)
+	{
+		queue<Tracking> tempList;
 
-		//	m2.rotz(leftLowerArmInc.z);
-		//	m1.translation(-x, -y, -z);
-		//	m1 = m3 *m2*m1;
-		//	janemba->leftLowerArmManip->mat() = m1 * janemba->leftLowerArmManip->mat();
-		//	leftLowerArmRot.z += leftLowerArmInc.z;
+		while (!trackList.empty())
+		{
+			Tracking check = trackList.front();
+			GsMat mat;
+			//gsout << "trans inc = " << (trackList.front()).inc << "\n";
+			mat.translation((trackList.front()).inc);
+			(trackList.front()).model->mat() = mat * (trackList.front()).model->mat();
+			GsBox box1;
 
-		//	m2.roty(leftLowerArmInc.y);
-		//	m1.translation(-x, -y, -z);
-		//	m4.rotz(-leftLowerArmRot.z);
-		//	m5.rotz(leftLowerArmRot.z);
-		//	m6.rotx(-leftLowerArmRot.x);
-		//	m7.rotx(leftLowerArmRot.x);
-		//	m1 = m3 * m5*m7*m2*m6*m4*m1;
-		//	janemba->leftLowerArmManip->mat() = m1 * janemba->leftLowerArmManip->mat();
-		//	leftLowerArmRot.y += leftLowerArmInc.y;
+			((SnModel*)((trackList.front()).model->child()))->get_bounding_box(box1);
 
-		//	x = 16.0f; y = 59.0f; z = 0.0f;  // leftUpperArm
-		//	m3.translation(x, y, z);
-		//	m2.rotx(leftUpperArmInc.x);
-		//	m4.rotz(-leftUpperArmRot.z);
-		//	m6.rotz(leftUpperArmRot.z);
-		//	m1.translation(-x, -y, -z);
-		//	m1 = m3 * m6*m2*m4*m1;
-		//	janemba->leftUpperArmManip->mat() = m1 * janemba->leftUpperArmManip->mat();
-		//	leftUpperArmRot.x += leftUpperArmInc.x;
 
-		//	m2.rotz(leftUpperArmInc.z);
-		//	m1.translation(-x, -y, -z);
-		//	m1 = m3 *m2*m1;
-		//	janemba->leftUpperArmManip->mat() = m1 * janemba->leftUpperArmManip->mat();
-		//	leftUpperArmRot.z += leftUpperArmInc.z;
+			if (!collision(box1, trackList.front().model))
+			{
+				//gsout << "pushing into temp list\n";
+				tempList.push(trackList.front());
+			}
+			trackList.pop();
 
-		//	m2.roty(leftUpperArmInc.y);
-		//	m1.translation(-x, -y, -z);
-		//	m4.rotz(-leftUpperArmRot.z);
-		//	m5.rotz(leftUpperArmRot.z);
-		//	m6.rotx(-leftUpperArmRot.x);
-		//	m7.rotx(leftUpperArmRot.x);
-		//	m1 = m3 * m5*m7*m2*m6*m4*m1;
-		//	janemba->leftUpperArmManip->mat() = m1 * janemba->leftUpperArmManip->mat();
-		//	leftUpperArmRot.y += leftUpperArmInc.y;
+		}
 
-		//	x = -16.0f; y = 40.0f; z = 0.0f;  // rightHand
-		//	m3.translation(x, y, z);
-		//	m2.rotx(rightHandInc.x);
-		//	m4.rotz(-rightHandRot.z);
-		//	m6.rotz(rightHandRot.z);
-		//	m1.translation(-x, -y, -z);
-		//	m1 = m3 * m6*m2*m4*m1;
-		//	janemba->rightHandManip->mat() = m1 * janemba->rightHandManip->mat();
-		//	rightHandRot.x += rightHandInc.x;
+		if (!tempList.empty())
+		{
+			while (!tempList.empty())
+			{
+				trackList.push(tempList.front());
+				tempList.pop();
+			}
+		}
 
-		//	m2.rotz(rightHandInc.z);
-		//	m1.translation(-x, -y, -z);
-		//	m1 = m3 * m2*m1;
-		//	janemba->rightHandManip->mat() = m1 * janemba->rightHandManip->mat();
-		//	rightHandRot.z += rightHandInc.z;
+		render();
 
-		//	m2.roty(rightHandInc.y);
-		//	m4.rotz(-rightHandRot.z);
-		//	m5.rotz(rightHandRot.z);
-		//	m6.rotx(-rightHandRot.x);
-		//	m7.rotx(rightHandRot.x);
-		//	m1.translation(-x, -y, -z);
-		//	m1 = m3 * m5*m7*m2*m6*m4*m1;
-		//	janemba->rightHandManip->mat() = m1 * janemba->rightHandManip->mat();
-		//	rightHandRot.y += rightHandInc.y;
-
-		//	x = -16.0f; y = 51.0f; z = 0.0f;  // rightLowerArm
-		//	m3.translation(x, y, z);
-		//	/*m2.rotx(rightLowerArmInc.x);
-		//	m4.rotz(-rightLowerArmRot.z);
-		//	m6.rotz(rightLowerArmRot.z);
-		//	m1.translation(-x, -y, -z);
-		//	m1 = m3 * m6*m2*m4*m1;
-		//	janemba->rightLowerArmManip->mat() = m1 * janemba->rightLowerArmManip->mat();
-		//	rightLowerArmRot.x += rightLowerArmInc.x;*/
-
-		//	m2.rotz(rightLowerArmInc.z);
-		//	m1.translation(-x, -y, -z);
-		//	m1 = m3 * m2 * m1;
-		//	janemba->rightLowerArmManip->mat() = m1 * janemba->rightLowerArmManip->mat();
-		//	rightLowerArmRot.z += rightLowerArmInc.z;
-
-		//	m2.roty(rightLowerArmInc.y);
-		//	m1.translation(-x, -y, -z);
-		//	m4.rotz(-rightLowerArmRot.z);
-		//	m5.rotz(rightLowerArmRot.z);
-		//	m6.rotx(-rightLowerArmRot.x);
-		//	m7.rotx(rightLowerArmRot.x);
-		//	m1 = m3 * m5*m7*m2*m6*m4*m1;
-		//	janemba->rightLowerArmManip->mat() = m1 * janemba->rightLowerArmManip->mat();
-		//	rightLowerArmRot.y += rightLowerArmInc.y;
-
-		//	x = -15.0f; y = 59.0f; z = 0.0f;  // rightUpperArm
-		//	m3.translation(x, y, z);
-		//	m2.rotx(rightUpperArmInc.x);
-		//	m4.rotz(-rightUpperArmRot.z);
-		//	m6.rotz(rightUpperArmRot.z);
-		//	m1.translation(-x, -y, -z);
-		//	m1 = m3 * m6*m2*m4*m1;
-		//	janemba->rightUpperArmManip->mat() = m1 * janemba->rightUpperArmManip->mat();
-		//	rightUpperArmRot.x += rightUpperArmInc.x;
-
-		//	m2.rotz(rightUpperArmInc.z);
-		//	m1.translation(-x, -y, -z);
-		//	m1 = m3 * m2*m1;
-		//	janemba->rightUpperArmManip->mat() = m1 * janemba->rightUpperArmManip->mat();
-		//	rightUpperArmRot.z += rightUpperArmInc.z;
-
-		//	m2.roty(rightUpperArmInc.y);
-		//	m1.translation(-x, -y, -z);
-		//	m4.rotz(-rightUpperArmRot.z);
-		//	m5.rotz(rightUpperArmRot.z);
-		//	m6.rotx(-rightUpperArmRot.x);
-		//	m7.rotx(rightUpperArmRot.x);
-		//	m1 = m3 * m5*m7*m2*m6*m4*m1;
-		//	janemba->rightUpperArmManip->mat() = m1 * janemba->rightUpperArmManip->mat();
-		//	rightUpperArmRot.y += rightUpperArmInc.y;
-
-		//count++;
-		//render();
 	}
+	if (count == 60)
+	{
+		remove_timer(2);
+		count = 0;
+		janemba->leftHandManip->mat().identity();
+		janemba->leftLowerArmManip->mat().identity();
+		janemba->leftUpperArmManip->mat().identity();
+		janemba->rightHandManip->mat().identity();
+		janemba->rightLowerArmManip->mat().identity();
+		janemba->rightUpperArmManip->mat().identity();
+	}
+
+	if (e == 2)
+	{
+		x = 16.0f; y = 43.0f; z = 0.0f;  // leftHand
+		m3.translation(x, y, z);
+		m2.rotx(leftHandInc.x);
+		m4.rotz(-leftHandRot.z);
+		m6.rotz(leftHandRot.z);
+		m1.translation(-x, -y, -z);
+		m1 = m3 * m6*m2*m4*m1;
+		janemba->leftHandManip->mat() = m1 * janemba->leftHandManip->mat();
+		leftHandRot.x += leftHandInc.x;
+
+		m2.rotz(leftHandInc.z);
+		m1.translation(-x, -y, -z);
+		m1 = m3 * m2*m1;
+		janemba->leftHandManip->mat() = m1 * janemba->leftHandManip->mat();
+		leftHandRot.z += leftHandInc.z;
+
+		m2.roty(leftHandInc.y);
+		m4.rotz(-leftHandRot.z);
+		m5.rotz(leftHandRot.z);
+		m6.rotx(-leftHandRot.x);
+		m7.rotx(leftHandRot.x);
+		m1.translation(-x, -y, -z);
+		m1 = m3 * m5*m7*m2*m6*m4*m1;
+		janemba->leftHandManip->mat() = m1 * janemba->leftHandManip->mat();
+		leftHandRot.y += leftHandInc.y;
+
+		x = 16.0f; y = 51.0f; z = 0.0f;  // leftLowerArm
+		m3.translation(x, y, z);
+		m2.rotx(leftLowerArmInc.x);
+		m4.rotz(-leftLowerArmRot.z);
+		m6.rotz(leftLowerArmRot.z);
+		m1.translation(-x, -y, -z);
+		m1 = m3 * m6*m2*m4*m1;
+		janemba->leftLowerArmManip->mat() = m1 * janemba->leftLowerArmManip->mat();
+		leftLowerArmRot.x += leftLowerArmInc.x;
+
+		m2.rotz(leftLowerArmInc.z);
+		m1.translation(-x, -y, -z);
+		m1 = m3 * m2*m1;
+		janemba->leftLowerArmManip->mat() = m1 * janemba->leftLowerArmManip->mat();
+		leftLowerArmRot.z += leftLowerArmInc.z;
+
+		m2.roty(leftLowerArmInc.y);
+		m1.translation(-x, -y, -z);
+		m4.rotz(-leftLowerArmRot.z);
+		m5.rotz(leftLowerArmRot.z);
+		m6.rotx(-leftLowerArmRot.x);
+		m7.rotx(leftLowerArmRot.x);
+		m1 = m3 * m5*m7*m2*m6*m4*m1;
+		janemba->leftLowerArmManip->mat() = m1 * janemba->leftLowerArmManip->mat();
+		leftLowerArmRot.y += leftLowerArmInc.y;
+
+		x = 16.0f; y = 59.0f; z = 0.0f;  // leftUpperArm
+		m3.translation(x, y, z);
+		m2.rotx(leftUpperArmInc.x);
+		m4.rotz(-leftUpperArmRot.z);
+		m6.rotz(leftUpperArmRot.z);
+		m1.translation(-x, -y, -z);
+		m1 = m3 * m6*m2*m4*m1;
+		janemba->leftUpperArmManip->mat() = m1 * janemba->leftUpperArmManip->mat();
+		leftUpperArmRot.x += leftUpperArmInc.x;
+
+		m2.rotz(leftUpperArmInc.z);
+		m1.translation(-x, -y, -z);
+		m1 = m3 * m2*m1;
+		janemba->leftUpperArmManip->mat() = m1 * janemba->leftUpperArmManip->mat();
+		leftUpperArmRot.z += leftUpperArmInc.z;
+
+		m2.roty(leftUpperArmInc.y);
+		m1.translation(-x, -y, -z);
+		m4.rotz(-leftUpperArmRot.z);
+		m5.rotz(leftUpperArmRot.z);
+		m6.rotx(-leftUpperArmRot.x);
+		m7.rotx(leftUpperArmRot.x);
+		m1 = m3 * m5*m7*m2*m6*m4*m1;
+		janemba->leftUpperArmManip->mat() = m1 * janemba->leftUpperArmManip->mat();
+		leftUpperArmRot.y += leftUpperArmInc.y;
+
+		x = -16.0f; y = 40.0f; z = 0.0f;  // rightHand
+		m3.translation(x, y, z);
+		m2.rotx(rightHandInc.x);
+		m4.rotz(-rightHandRot.z);
+		m6.rotz(rightHandRot.z);
+		m1.translation(-x, -y, -z);
+		m1 = m3 * m6*m2*m4*m1;
+		janemba->rightHandManip->mat() = m1 * janemba->rightHandManip->mat();
+		rightHandRot.x += rightHandInc.x;
+
+		m2.rotz(rightHandInc.z);
+		m1.translation(-x, -y, -z);
+		m1 = m3 * m2*m1;
+		janemba->rightHandManip->mat() = m1 * janemba->rightHandManip->mat();
+		rightHandRot.z += rightHandInc.z;
+
+		m2.roty(rightHandInc.y);
+		m4.rotz(-rightHandRot.z);
+		m5.rotz(rightHandRot.z);
+		m6.rotx(-rightHandRot.x);
+		m7.rotx(rightHandRot.x);
+		m1.translation(-x, -y, -z);
+		m1 = m3 * m5*m7*m2*m6*m4*m1;
+		janemba->rightHandManip->mat() = m1 * janemba->rightHandManip->mat();
+		rightHandRot.y += rightHandInc.y;
+
+		x = -16.0f; y = 51.0f; z = 0.0f;  // rightLowerArm
+		m3.translation(x, y, z);
+		/*m2.rotx(rightLowerArmInc.x);
+		m4.rotz(-rightLowerArmRot.z);
+		m6.rotz(rightLowerArmRot.z);
+		m1.translation(-x, -y, -z);
+		m1 = m3 * m6*m2*m4*m1;
+		janemba->rightLowerArmManip->mat() = m1 * janemba->rightLowerArmManip->mat();
+		rightLowerArmRot.x += rightLowerArmInc.x;*/
+
+		m2.rotz(rightLowerArmInc.z);
+		m1.translation(-x, -y, -z);
+		m1 = m3 * m2 * m1;
+		janemba->rightLowerArmManip->mat() = m1 * janemba->rightLowerArmManip->mat();
+		rightLowerArmRot.z += rightLowerArmInc.z;
+
+		m2.roty(rightLowerArmInc.y);
+		m1.translation(-x, -y, -z);
+		m4.rotz(-rightLowerArmRot.z);
+		m5.rotz(rightLowerArmRot.z);
+		m6.rotx(-rightLowerArmRot.x);
+		m7.rotx(rightLowerArmRot.x);
+		m1 = m3 * m5*m7*m2*m6*m4*m1;
+		janemba->rightLowerArmManip->mat() = m1 * janemba->rightLowerArmManip->mat();
+		rightLowerArmRot.y += rightLowerArmInc.y;
+
+		x = -15.0f; y = 59.0f; z = 0.0f;  // rightUpperArm
+		m3.translation(x, y, z);
+		m2.rotx(rightUpperArmInc.x);
+		m4.rotz(-rightUpperArmRot.z);
+		m6.rotz(rightUpperArmRot.z);
+		m1.translation(-x, -y, -z);
+		m1 = m3 * m6*m2*m4*m1;
+		janemba->rightUpperArmManip->mat() = m1 * janemba->rightUpperArmManip->mat();
+		rightUpperArmRot.x += rightUpperArmInc.x;
+
+		m2.rotz(rightUpperArmInc.z);
+		m1.translation(-x, -y, -z);
+		m1 = m3 * m2*m1;
+		janemba->rightUpperArmManip->mat() = m1 * janemba->rightUpperArmManip->mat();
+		rightUpperArmRot.z += rightUpperArmInc.z;
+
+		m2.roty(rightUpperArmInc.y);
+		m1.translation(-x, -y, -z);
+		m4.rotz(-rightUpperArmRot.z);
+		m5.rotz(rightUpperArmRot.z);
+		m6.rotx(-rightUpperArmRot.x);
+		m7.rotx(rightUpperArmRot.x);
+		m1 = m3 * m5*m7*m2*m6*m4*m1;
+		janemba->rightUpperArmManip->mat() = m1 * janemba->rightUpperArmManip->mat();
+		rightUpperArmRot.y += rightUpperArmInc.y;
+
+		count++;
+
+		if (count == 60)
+		{
+			SnModel* energyBall = new SnModel;
+			GsVec ballPosition = janemba->direction + GsVec(0,60,0);
+			//x = 16.0f; y = 43.0f; z = 0.0f;  // leftHand
+			//ballPosition.x = 45.0f; ballPosition.y = 50.0f; ballPosition.z = 5.0f;
+			//ballPosition = janemba->leftHandManip->mat()*ballPosition;
+			energyBall->model()->make_sphere(ballPosition,10,20,true);
+			//rootg()->add(energyBall);
+			//add_timer(0.01, 1);
+			SnManipulator* derp = new SnManipulator;
+			derp->draw_box(false);
+			derp->child(energyBall);
+			Tracking track;
+			track.model = derp;
+			track.inc = (janemba->direction - janemba->position)/5;
+			trackList.push(track);
+			rootg()->add(derp);
+			
+		}
+		render();
+	}
+
 	return 1;
 }
 /*void MyViewer::timer_environment(int e)
@@ -1047,7 +1096,7 @@ int MyViewer::timer(int e)
 }*/
 void MyViewer::animate()
 {
-	add_timer(0.01, 1);
+	add_timer(0.001, 2);
 
 }
 int MyViewer::handle_keyboard ( const GsEvent &e )
@@ -1077,6 +1126,7 @@ int MyViewer::handle_keyboard ( const GsEvent &e )
 		case '5': bodyChoice = 5; return 1;
 		case '6': bodyChoice = 6; return 1;
 		case 'u': animate(); return 1;
+		
 		case GsEvent::KeyUp: movement(2); return 1;
 		case GsEvent::KeyDown: movement(3);  return 1;
 		case GsEvent::KeyLeft: movement(0); return 1;
