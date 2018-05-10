@@ -6,6 +6,7 @@
 # include <sigogl/ui_button.h>
 # include <sigogl/ws_viewer.h>
 # include <sig/sn_manipulator.h>
+# include <sig/sn_model.h>
 # include "characterModel.h"
 # include "tracking.h"
 
@@ -30,12 +31,16 @@ class MyViewer : public WsViewer
 	GsVec incrmnt;
 	GsVec start_position;
 	GsVec destination;
-	GsVec shootPoint;
 	
    public :
+	   SnManipulator * carManip;
 	MyViewer ( int x, int y, int w, int h, const char* l );
 	//void build_dohnut();
 	void build_floor();
+	void build_wall();
+	void build_wall2();
+	void build_wall3();
+	void build_wall4();
 	void build_ui ();
 	bool collision(GsBox & box1, SnManipulator* check);
 	void movement(int);
@@ -48,7 +53,7 @@ class MyViewer : public WsViewer
 	virtual int uievent ( int e ) override;
 	virtual int timer(int e) override;
 	void timer_environment(int e);
-	SnManipulator *mainManip;
+	
 };
 
 
